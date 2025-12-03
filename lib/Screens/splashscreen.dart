@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/Screens/Dashboard.dart';
+import 'package:petcare/Screens/signup.dart';
 
 class Splashscreen extends StatelessWidget {
   const Splashscreen({super.key});
@@ -22,22 +23,17 @@ class Splashscreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          Expanded(
-            flex: 3,
-            child: Center(
-              child: Container(
-                height: double.infinity,
-                width: double.infinity,
-                child: Image.asset('assets/images/cat.jpg'),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
+          Positioned.fill(
+            child: Image.asset('assets/images/cat.jpg', fit: BoxFit.cover),
+          ), // to fix the image to the container
+
+          Align(
+            alignment: Alignment.bottomCenter,
             child: Container(
-              width: double.infinity,
+              height: 200,
+              width: 1000,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-              margin: const EdgeInsets.all(20),
+              margin: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -76,10 +72,26 @@ class Splashscreen extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.green,
+                            content: const Text('Welcome to Pet Care'),
+                            duration: const Duration(seconds: 2),
+                            behavior: SnackBarBehavior.floating,
+                            margin: const EdgeInsets.all(16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide(
+                                color: Colors.green,
+                                width: 2,
+                              ),
+                            ),
+                          ),
+                        );
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const Dashboard(),
+                            builder: (context) => const Login(),
                           ),
                         );
                       },
