@@ -46,13 +46,31 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
+  void _tryLogin() {
+    // Trigger field validators
+    final isValid = _formKey.currentState?.validate() ?? false;
+
+    if (!isValid) {
+      // Show a friendly message and stop navigation
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fix the errors above.')),
+      );
+      return;
+    }
+
+    // If valid, proceed to dashboard
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Dashboard()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Focus-based dynamic colors
-
     return Scaffold(
       body: Stack(
         children: [
+          // Background (you can remove this if you want a flat color)
           Positioned.fill(
             child: Transform.scale(
               scale: 1.3,
@@ -60,27 +78,33 @@ class _LoginState extends State<Login> {
             ),
           ),
 
+          // Dynamic blur based on focus
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: blurValue, sigmaY: blurValue),
-              child: Container(),
+              child:
+                  Container(), // transparent overlay required by BackdropFilter
             ),
           ),
 
+          // Form contents
           Center(
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Form(
                 key: _formKey,
+                // This line makes the error messages appear automatically
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // Email field
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black,
+                            color: Colors.black.withOpacity(0.25),
                             blurRadius: 12,
                             offset: const Offset(0, 6),
                           ),
@@ -89,8 +113,8 @@ class _LoginState extends State<Login> {
                       child: MyTextformfield(
                         controller: _emailController,
                         hintText: "example@gmail.com",
-                        labelText: "email",
-                        errorMessage: "incorrect email",
+                        labelText: "Email",
+                        errorMessage: "Incorrect email", // shows when empty
                         prefixIcon: const Icon(
                           Icons.email_rounded,
                           color: Colors.black,
@@ -103,12 +127,13 @@ class _LoginState extends State<Login> {
 
                     const SizedBox(height: 20),
 
+                    // Password field
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black,
+                            color: Colors.black.withOpacity(0.25),
                             blurRadius: 12,
                             offset: const Offset(0, 6),
                           ),
@@ -118,7 +143,7 @@ class _LoginState extends State<Login> {
                         controller: _passwordController,
                         hintText: "*********",
                         labelText: "Enter Your Password",
-                        errorMessage: "Incorrect Password",
+                        errorMessage: "Incorrect Password", // shows when empty
                         prefixIcon: const Icon(
                           Icons.lock_rounded,
                           color: Colors.black,
@@ -132,18 +157,13 @@ class _LoginState extends State<Login> {
 
                     const SizedBox(height: 28),
 
+                    // Login button
                     SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Dashboard(),
-                            ),
-                          );
-                        },
+                        onPressed:
+                            _tryLogin, // <-- validate first, then navigate if OK
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
@@ -151,7 +171,7 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         child: const Text(
-                          'login',
+                          'Login',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -161,7 +181,9 @@ class _LoginState extends State<Login> {
                       ),
                     ),
 
-                    SizedBox(height: 28),
+                    const SizedBox(height: 28),
+
+                    // Signup link
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -174,7 +196,7 @@ class _LoginState extends State<Login> {
                         style: TextStyle(
                           fontSize: 18,
                           fontStyle: FontStyle.italic,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                     ),
