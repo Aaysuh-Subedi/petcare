@@ -10,7 +10,7 @@ class VetonboardingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.green[900],
+        backgroundColor: Colors.green,
         centerTitle: true,
         title: const Text(
           'Welcome to Paw Care',

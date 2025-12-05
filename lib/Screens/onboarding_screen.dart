@@ -4,14 +4,14 @@ import 'package:petcare/Screens/login.dart';
 import 'package:petcare/Screens/vet_onboarding_screen.dart';
 // import 'package:petcare/Screens/signup.dart';
 
-class Splashscreen extends StatelessWidget {
-  const Splashscreen({super.key});
+class Onbording extends StatelessWidget {
+  const Onbording({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.green[900],
+        backgroundColor: Colors.green,
         centerTitle: true,
         title: const Text(
           'Welcome to Paw Care',
