@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
-// import 'package:petcare/Screens/Dashboard.dart';
-// import 'package:petcare/Screens/login.dart';
->>>>>>> 2d69da723cf1a625f9a13d728b764729b9cb0266
 import 'package:petcare/Screens/vet_onboarding_screen.dart';
 import 'package:petcare/theme/app_colors.dart';
 
@@ -46,27 +41,30 @@ class Onbording extends StatelessWidget {
                           children: [
                             Text(
                               'Find Your',
-                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                height: 1.1,
-                                fontSize: 48,
-                              ),
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.1,
+                                    fontSize: 48,
+                                  ),
                             ),
                             Text(
                               'Furry',
-                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                height: 1.1,
-                                fontSize: 48,
-                              ),
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.1,
+                                    fontSize: 48,
+                                  ),
                             ),
                             Text(
                               'Favorite',
-                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                height: 1.1,
-                                fontSize: 48,
-                              ),
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.1,
+                                    fontSize: 48,
+                                  ),
                             ),
                           ],
                         ),
@@ -98,9 +96,9 @@ class Onbording extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Text(
                     'Find your perfect pet companion',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleMedium?.copyWith(fontSize: 18),
                   ),
                 ),
                 SizedBox(
@@ -158,7 +156,8 @@ class Onbording extends StatelessWidget {
                                       },
                                       icon: CircleAvatar(
                                         radius: 16,
-                                        backgroundColor: AppColors.textPrimaryColor,
+                                        backgroundColor:
+                                            AppColors.textPrimaryColor,
                                         child: Icon(
                                           Icons.pets,
                                           color: AppColors.buttonTextColor,
