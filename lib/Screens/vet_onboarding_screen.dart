@@ -83,27 +83,30 @@ class VetOnboardingScreen extends StatelessWidget {
                           children: [
                             Text(
                               'Care',
-                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                height: 1.1,
-                                fontSize: 48,
-                              ),
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.1,
+                                    fontSize: 48,
+                                  ),
                             ),
                             Text(
                               'with',
-                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                height: 1.1,
-                                fontSize: 48,
-                              ),
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.1,
+                                    fontSize: 48,
+                                  ),
                             ),
                             Text(
                               'Passion',
-                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                height: 1.1,
-                                fontSize: 48,
-                              ),
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.1,
+                                    fontSize: 48,
+                                  ),
                             ),
                           ],
                         ),
@@ -135,9 +138,9 @@ class VetOnboardingScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Text(
                     'Find your perfect pet companion',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleMedium?.copyWith(fontSize: 18),
                   ),
                 ),
                 SizedBox(
@@ -196,7 +199,8 @@ class VetOnboardingScreen extends StatelessWidget {
                                       },
                                       icon: CircleAvatar(
                                         radius: 16,
-                                        backgroundColor: AppColors.textPrimaryColor,
+                                        backgroundColor:
+                                            AppColors.textPrimaryColor,
                                         child: Icon(
                                           Icons.pets,
                                           color: AppColors.buttonTextColor,
