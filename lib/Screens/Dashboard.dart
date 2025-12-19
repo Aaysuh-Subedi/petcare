@@ -23,7 +23,10 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("This is the Dashborad")),
+      appBar: AppBar(
+        title: Text("This is the Dashborad"),
+        backgroundColor: Color(0xff),
+      ),
       body: lstBottomScreen[_selectedIndex],
 
       bottomNavigationBar: BottomNavigationBar(
