@@ -1,10 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
-// import 'package:petcare/Screens/Dashboard.dart';
-import 'dart:ui';
-
->>>>>>> 2d69da723cf1a625f9a13d728b764729b9cb0266
 import 'package:petcare/Screens/login.dart';
 import 'package:petcare/widget/mytextformfield.dart';
 import 'package:petcare/theme/app_colors.dart';
@@ -152,14 +146,7 @@ class _SignupState extends State<Signup> {
                               if (value == null || value.isEmpty) {
                                 return 'Email is empty';
                               }
-                              // // Optional: add a stronger email format check
-                              // final emailRegex = RegExp(
-                              //   r'^[^@]+@[^@]+\.[^@]+$',
-                              // );
-                              // if (!emailRegex.hasMatch(value)) {
-                              //   return 'Enter a valid email address';
-                              // }
-                              // return null;
+                              return null;
                             },
                           ),
                           const SizedBox(height: 18),
@@ -239,19 +226,12 @@ class _SignupState extends State<Signup> {
                             child: ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  // TODO: Insert your signup logic (API/Firebase) here.
-                                  // On success, navigate to Login (or Dashboard).
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => const Login(),
                                     ),
                                   );
-                                  // Or:
-                                  // Navigator.pushReplacement(
-                                  //   context,
-                                  //   MaterialPageRoute(builder: (_) => const Dashboard()),
-                                  // );
                                 }
                               },
                               child: const Text('Sign Up'),
