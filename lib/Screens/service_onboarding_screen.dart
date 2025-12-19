@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare/Screens/login.dart';
 import 'package:petcare/Screens/signup.dart';
 import 'package:petcare/Screens/vet_onboarding_screen.dart';
+import 'package:petcare/theme/app_colors.dart';
 
 class ServiceOnboardingScreen extends StatelessWidget {
   const ServiceOnboardingScreen({super.key});
@@ -12,7 +13,7 @@ class ServiceOnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF5EC),
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -24,7 +25,7 @@ class ServiceOnboardingScreen extends StatelessWidget {
                 child: Icon(
                   Icons.pets,
                   size: 180,
-                  color: const Color(0xFFFFA84C),
+                  color: AppColors.accentColor,
                 ),
               ),
             ),
@@ -36,7 +37,7 @@ class ServiceOnboardingScreen extends StatelessWidget {
                 child: Icon(
                   Icons.pets,
                   size: 220,
-                  color: const Color(0xFFFFA84C),
+                  color: AppColors.accentColor,
                 ),
               ),
             ),
@@ -53,36 +54,33 @@ class ServiceOnboardingScreen extends StatelessWidget {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               'Trusted',
-                              style: TextStyle(
-                                fontSize: 46,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black,
-                                height: 1.05,
-                                fontFamily: 'Nunito',
-                              ),
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.05,
+                                    fontSize: 46,
+                                  ),
                             ),
                             Text(
                               'Care',
-                              style: TextStyle(
-                                fontSize: 46,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black,
-                                height: 1.05,
-                                fontFamily: 'Nunito',
-                              ),
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.05,
+                                    fontSize: 46,
+                                  ),
                             ),
                             Text(
                               'Network',
-                              style: TextStyle(
-                                fontSize: 46,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black,
-                                height: 1.05,
-                                fontFamily: 'Nunito',
-                              ),
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.05,
+                                    fontSize: 46,
+                                  ),
                             ),
                           ],
                         ),
@@ -113,12 +111,9 @@ class ServiceOnboardingScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Text(
                     'Discover trusted pet sitters, walkers, and groomers for your furry friends.',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
                       height: 1.4,
-                      fontFamily: 'Nunito',
                     ),
                   ),
                 ),
@@ -130,7 +125,7 @@ class ServiceOnboardingScreen extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(32),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.surfaceColor,
                       borderRadius: BorderRadius.circular(28),
                       boxShadow: [
                         BoxShadow(
@@ -143,24 +138,17 @@ class ServiceOnboardingScreen extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
+                        Text(
                           'Ready to get started?',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black,
-                            fontFamily: 'Nunito',
-                          ),
+                          style: Theme.of(context).textTheme.headlineMedium
+                              ?.copyWith(fontWeight: FontWeight.w800),
                         ),
                         const SizedBox(height: 12),
-                        const Text(
+                        Text(
                           'Join our community of pet lovers',
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Nunito',
-                          ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(fontSize: 17),
                         ),
                         const SizedBox(height: 32),
                         SizedBox(
@@ -175,22 +163,7 @@ class ServiceOnboardingScreen extends StatelessWidget {
                                 ),
                               );
                             },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFFFA84C),
-                              foregroundColor: Colors.black,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            ),
-                            child: const Text(
-                              'Login',
-                              style: TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Nunito',
-                              ),
-                            ),
+                            child: const Text('Login'),
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -206,24 +179,7 @@ class ServiceOnboardingScreen extends StatelessWidget {
                                 ),
                               );
                             },
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              side: const BorderSide(
-                                color: Colors.black87,
-                                width: 2.5,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            ),
-                            child: const Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Nunito',
-                              ),
-                            ),
+                            child: const Text('Sign Up'),
                           ),
                         ),
                       ],

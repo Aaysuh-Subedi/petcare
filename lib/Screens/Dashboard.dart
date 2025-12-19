@@ -3,6 +3,7 @@ import 'package:petcare/Screens/bottom_screen/discover_screen.dart';
 import 'package:petcare/Screens/bottom_screen/explore_screen.dart';
 import 'package:petcare/Screens/bottom_screen/home_screen.dart';
 import 'package:petcare/Screens/bottom_screen/profile_screen.dart';
+import 'package:petcare/theme/app_colors.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -29,9 +30,6 @@ class _DashboardState extends State<Dashboard> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
-        backgroundColor: Color(0xFFFF9D34),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black,
         onTap: (index) {
           setState(() {
             _selectedIndex = index;

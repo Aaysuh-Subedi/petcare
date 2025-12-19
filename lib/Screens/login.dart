@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare/Screens/Dashboard.dart';
 import 'package:petcare/Screens/signup.dart';
 import 'package:petcare/widget/mytextformfield.dart';
+import 'package:petcare/theme/app_colors.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -18,9 +19,6 @@ class _LoginState extends State<Login> {
   final FocusNode _passwordFocusNode = FocusNode();
 
   final _formKey = GlobalKey<FormState>();
-
-  static const Color _bgColor = Color(0xFFFFF5EC);
-  static const Color _accentColor = Color(0xFFFFA84C);
 
   @override
   void initState() {
@@ -58,7 +56,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bgColor,
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -67,7 +65,7 @@ class _LoginState extends State<Login> {
               top: 140,
               child: Opacity(
                 opacity: 0.12,
-                child: Icon(Icons.pets, size: 180, color: _accentColor),
+                child: Icon(Icons.pets, size: 180, color: AppColors.accentColor),
               ),
             ),
             Positioned(
@@ -75,7 +73,7 @@ class _LoginState extends State<Login> {
               bottom: 160,
               child: Opacity(
                 opacity: 0.12,
-                child: Icon(Icons.pets, size: 220, color: _accentColor),
+                child: Icon(Icons.pets, size: 220, color: AppColors.accentColor),
               ),
             ),
 
@@ -84,20 +82,16 @@ class _LoginState extends State<Login> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Welcome back',
-                    style: TextStyle(
-                      fontSize: 32,
+                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       fontWeight: FontWeight.w800,
-                      color: Colors.black,
-                      fontFamily: 'Nunito',
                     ),
                   ),
                   const SizedBox(height: 6),
-                  const Text(
+                  Text(
                     'Log in to your account',
-                    style: TextStyle(
-                      fontSize: 16,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Colors.black87,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Nunito',
@@ -109,7 +103,7 @@ class _LoginState extends State<Login> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.surfaceColor,
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
@@ -140,13 +134,13 @@ class _LoginState extends State<Login> {
                               hintText: "example@gmail.com",
                               labelText: "Email",
                               errorMessage: "Incorrect email",
-                              prefixIcon: const Icon(
+                              prefixIcon: Icon(
                                 Icons.email_rounded,
-                                color: Colors.black,
+                                color: AppColors.iconPrimaryColor,
                               ),
                               focusNode: _emailFocusNode,
                               filled: true,
-                              fillcolor: Colors.white,
+                              fillcolor: AppColors.surfaceColor,
                             ),
                           ),
 
@@ -168,13 +162,13 @@ class _LoginState extends State<Login> {
                               hintText: "*********",
                               labelText: "Enter Your Password",
                               errorMessage: "Incorrect Password",
-                              prefixIcon: const Icon(
+                              prefixIcon: Icon(
                                 Icons.lock_rounded,
-                                color: Colors.black,
+                                color: AppColors.iconPrimaryColor,
                               ),
                               focusNode: _passwordFocusNode,
                               filled: true,
-                              fillcolor: Colors.white,
+                              fillcolor: AppColors.surfaceColor,
                               obscureText: true,
                             ),
                           ),
@@ -186,22 +180,7 @@ class _LoginState extends State<Login> {
                             height: 56,
                             child: ElevatedButton(
                               onPressed: _tryLogin,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: _accentColor,
-                                foregroundColor: Colors.black,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                              ),
-                              child: const Text(
-                                'Login',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  fontFamily: 'Nunito',
-                                ),
-                              ),
+                              child: const Text('Login'),
                             ),
                           ),
 
@@ -210,13 +189,9 @@ class _LoginState extends State<Login> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
+                              Text(
                                 "Don't have an account? ",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black87,
-                                  fontFamily: 'Nunito',
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -227,14 +202,11 @@ class _LoginState extends State<Login> {
                                     ),
                                   );
                                 },
-                                child: const Text(
+                                child: Text(
                                   'Sign Up',
-                                  style: TextStyle(
-                                    fontSize: 14,
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w800,
-                                    color: Colors.black,
                                     decoration: TextDecoration.underline,
-                                    fontFamily: 'Nunito',
                                   ),
                                 ),
                               ),

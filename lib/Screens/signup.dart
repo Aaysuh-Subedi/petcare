@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/Screens/login.dart';
 import 'package:petcare/widget/mytextformfield.dart';
+import 'package:petcare/theme/app_colors.dart';
 // import 'package:petcare/Screens/Dashboard.dart'; // Uncomment if you plan to navigate there.
 
 class Signup extends StatefulWidget {
@@ -27,10 +28,6 @@ class _SignupState extends State<Signup> {
 
   // Form key
   final _formKey = GlobalKey<FormState>();
-
-  // Colors
-  static const Color _bgColor = Color(0xFFFFF5EC);
-  static const Color _accentColor = Color(0xFFFFA84C);
 
   @override
   void initState() {
@@ -71,7 +68,7 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bgColor,
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -81,7 +78,11 @@ class _SignupState extends State<Signup> {
               top: 140,
               child: Opacity(
                 opacity: 0.12,
-                child: Icon(Icons.pets, size: 180, color: _accentColor),
+                child: Icon(
+                  Icons.pets,
+                  size: 180,
+                  color: AppColors.accentColor,
+                ),
               ),
             ),
             Positioned(
@@ -89,7 +90,11 @@ class _SignupState extends State<Signup> {
               bottom: 160,
               child: Opacity(
                 opacity: 0.12,
-                child: Icon(Icons.pets, size: 220, color: _accentColor),
+                child: Icon(
+                  Icons.pets,
+                  size: 220,
+                  color: AppColors.accentColor,
+                ),
               ),
             ),
 
@@ -99,24 +104,16 @@ class _SignupState extends State<Signup> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Create account',
-                    style: TextStyle(
-                      fontSize: 32,
+                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       fontWeight: FontWeight.w800,
-                      color: Colors.black,
-                      fontFamily: 'Nunito',
                     ),
                   ),
                   const SizedBox(height: 6),
-                  const Text(
+                  Text(
                     'Join our pet-loving community',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black87,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Nunito',
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 28),
 
@@ -124,7 +121,7 @@ class _SignupState extends State<Signup> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.surfaceColor,
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
@@ -251,22 +248,7 @@ class _SignupState extends State<Signup> {
                                   // );
                                 }
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: _accentColor,
-                                foregroundColor: Colors.black,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                              ),
-                              child: const Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  fontFamily: 'Nunito',
-                                ),
-                              ),
+                              child: const Text('Sign Up'),
                             ),
                           ),
 
@@ -275,13 +257,9 @@ class _SignupState extends State<Signup> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
+                              Text(
                                 'Already have an account? ',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black87,
-                                  fontFamily: 'Nunito',
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -292,15 +270,13 @@ class _SignupState extends State<Signup> {
                                     ),
                                   );
                                 },
-                                child: const Text(
+                                child: Text(
                                   'Login',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.black,
-                                    decoration: TextDecoration.underline,
-                                    fontFamily: 'Nunito',
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w800,
+                                        decoration: TextDecoration.underline,
+                                      ),
                                 ),
                               ),
                             ],
@@ -349,9 +325,9 @@ class _SignupState extends State<Signup> {
         hintText: hint,
         labelText: label,
         errorMessage: '$label is empty',
-        prefixIcon: Icon(icon, color: Colors.black),
+        prefixIcon: Icon(icon, color: AppColors.iconPrimaryColor),
         filled: true,
-        fillcolor: Colors.white,
+        fillcolor: AppColors.surfaceColor,
         obscureText: obscure,
         keyboardType: keyboardType,
         validator: validator,

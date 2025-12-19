@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/Screens/vet_onboarding_screen.dart';
+import 'package:petcare/theme/app_colors.dart';
 
 class Onbording extends StatelessWidget {
   const Onbording({super.key});
@@ -7,7 +8,7 @@ class Onbording extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF5EC),
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -19,7 +20,7 @@ class Onbording extends StatelessWidget {
                 child: Icon(
                   Icons.pets,
                   size: 180,
-                  color: const Color(0xFFFFA84C),
+                  color: AppColors.accentColor,
                 ),
               ),
             ),
@@ -37,32 +38,29 @@ class Onbording extends StatelessWidget {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: const [
+                          children: [
                             Text(
                               'Find Your',
-                              style: TextStyle(
-                                fontSize: 48,
+                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
                                 fontWeight: FontWeight.w800,
-                                color: Colors.black,
                                 height: 1.1,
+                                fontSize: 48,
                               ),
                             ),
                             Text(
                               'Furry',
-                              style: TextStyle(
-                                fontSize: 48,
+                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
                                 fontWeight: FontWeight.w800,
-                                color: Colors.black,
                                 height: 1.1,
+                                fontSize: 48,
                               ),
                             ),
                             Text(
                               'Favorite',
-                              style: TextStyle(
-                                fontSize: 48,
+                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
                                 fontWeight: FontWeight.w800,
-                                color: Colors.black,
                                 height: 1.1,
+                                fontSize: 48,
                               ),
                             ),
                           ],
@@ -95,10 +93,8 @@ class Onbording extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Text(
                     'Find your perfect pet companion',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontSize: 18,
-                      color: Colors.grey.shade800,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -124,7 +120,7 @@ class Onbording extends StatelessWidget {
                           height: 120,
                           width: 180,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.surfaceColor,
                             borderRadius: BorderRadius.circular(22),
                             boxShadow: [
                               BoxShadow(
@@ -138,11 +134,7 @@ class Onbording extends StatelessWidget {
                             children: [
                               Text(
                                 'Find your perfect pet companion',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),
+                                style: Theme.of(context).textTheme.titleLarge,
                               ),
                               Row(
                                 children: [
@@ -159,36 +151,16 @@ class Onbording extends StatelessWidget {
                                           ),
                                         );
                                       },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(
-                                          0xFFFFA84C,
-                                        ),
-                                        foregroundColor: Colors.black,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            28,
-                                          ),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 18,
-                                        ),
-                                      ),
-                                      icon: const CircleAvatar(
+                                      icon: CircleAvatar(
                                         radius: 16,
-                                        backgroundColor: Colors.black,
+                                        backgroundColor: AppColors.textPrimaryColor,
                                         child: Icon(
                                           Icons.pets,
-                                          color: Colors.white,
+                                          color: AppColors.buttonTextColor,
                                           size: 18,
                                         ),
                                       ),
-                                      label: const Text(
-                                        'Get Started',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
+                                      label: const Text('Get Started'),
                                     ),
                                   ),
                                 ],
