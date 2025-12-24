@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
-      backgroundColor: AppColors.secondaryColor,
+      backgroundColor: const Color.fromARGB(255, 248, 240, 126),
       body: Center(
         child: FadeTransition(
           opacity: _fade,

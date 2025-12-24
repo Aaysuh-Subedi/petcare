@@ -65,7 +65,11 @@ class _LoginState extends State<Login> {
               top: 140,
               child: Opacity(
                 opacity: 0.12,
-                child: Icon(Icons.pets, size: 180, color: AppColors.accentColor),
+                child: Icon(
+                  Icons.pets,
+                  size: 180,
+                  color: AppColors.accentColor,
+                ),
               ),
             ),
             Positioned(
@@ -73,7 +77,11 @@ class _LoginState extends State<Login> {
               bottom: 160,
               child: Opacity(
                 opacity: 0.12,
-                child: Icon(Icons.pets, size: 220, color: AppColors.accentColor),
+                child: Icon(
+                  Icons.pets,
+                  size: 220,
+                  color: AppColors.accentColor,
+                ),
               ),
             ),
 
@@ -204,10 +212,11 @@ class _LoginState extends State<Login> {
                                 },
                                 child: Text(
                                   'Sign Up',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w800,
-                                    decoration: TextDecoration.underline,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w800,
+                                        decoration: TextDecoration.underline,
+                                      ),
                                 ),
                               ),
                             ],
