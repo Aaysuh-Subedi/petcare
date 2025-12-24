@@ -3,6 +3,7 @@ import 'package:petcare/Screens/bottom_screen/discover_screen.dart';
 import 'package:petcare/Screens/bottom_screen/explore_screen.dart';
 import 'package:petcare/Screens/bottom_screen/home_screen.dart';
 import 'package:petcare/Screens/bottom_screen/profile_screen.dart';
+import 'package:petcare/theme/app_colors.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -26,7 +27,7 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         title: Text("PawCare"),
         centerTitle: true,
-        backgroundColor: Color(0xFFFF9D34),
+        backgroundColor: AppColors.iconPrimaryColor,
       ),
       body: lstBottomScreen[_selectedIndex],
 
