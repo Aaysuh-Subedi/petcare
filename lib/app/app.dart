@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petcare/Screens/Splash_screen.dart';
+import 'package:petcare/features/splash/presentation/pages/Splash_screen.dart';
 import 'package:petcare/app/theme/theme_data.dart';
 
 class App extends StatelessWidget {

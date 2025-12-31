@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petcare/Screens/dashboard_screen.dart';
+import 'package:petcare/features/dashboard/presentation/pages/dashboard_screen.dart';
 import 'package:petcare/features/auth/presentation/pages/signup.dart';
 import 'package:petcare/core/widget/mytextformfield.dart';
 import 'package:petcare/app/theme/app_colors.dart';

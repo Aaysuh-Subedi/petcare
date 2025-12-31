@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:petcare/Screens/vet_onboarding_screen.dart';
+import 'package:petcare/features/onboarding/presentation/pages/service_onboarding_screen.dart';
 import 'package:petcare/app/theme/app_colors.dart';
 
-class Onbording extends StatelessWidget {
-  const Onbording({super.key});
+class VetOnboardingScreen extends StatelessWidget {
+  const VetOnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +17,48 @@ class Onbording extends StatelessWidget {
               top: 140,
               child: Opacity(
                 opacity: 0.12,
+                child: Icon(
+                  Icons.pets,
+                  size: 180,
+                  color: AppColors.accentColor,
+                ),
+              ),
+            ),
+
+            Positioned(
+              right: 140,
+              top: 140,
+              bottom: 150,
+              child: Opacity(
+                opacity: 0.12,
+                child: Icon(
+                  Icons.pets,
+                  size: 180,
+                  color: AppColors.accentColor,
+                ),
+              ),
+            ),
+
+            Positioned(
+              left: 8,
+              top: 140,
+              bottom: 200,
+              child: Opacity(
+                opacity: 0.15,
+                child: Icon(
+                  Icons.pets,
+                  size: 180,
+                  color: AppColors.accentColor,
+                ),
+              ),
+            ),
+
+            Positioned(
+              left: 8,
+              top: -200,
+              bottom: 200,
+              child: Opacity(
+                opacity: 0.15,
                 child: Icon(
                   Icons.pets,
                   size: 180,
@@ -40,7 +82,7 @@ class Onbording extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              'Find Your',
+                              'Care',
                               style: Theme.of(context).textTheme.displayLarge
                                   ?.copyWith(
                                     fontWeight: FontWeight.w800,
@@ -49,7 +91,7 @@ class Onbording extends StatelessWidget {
                                   ),
                             ),
                             Text(
-                              'Furry',
+                              'with',
                               style: Theme.of(context).textTheme.displayLarge
                                   ?.copyWith(
                                     fontWeight: FontWeight.w800,
@@ -58,7 +100,7 @@ class Onbording extends StatelessWidget {
                                   ),
                             ),
                             Text(
-                              'Favorite',
+                              'Passion',
                               style: Theme.of(context).textTheme.displayLarge
                                   ?.copyWith(
                                     fontWeight: FontWeight.w800,
@@ -106,7 +148,7 @@ class Onbording extends StatelessWidget {
                   width: double.infinity,
                   child: Center(
                     child: Image.asset(
-                      'assets/images/dog.png',
+                      'assets/images/cat.png',
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -133,6 +175,7 @@ class Onbording extends StatelessWidget {
                               ),
                             ],
                           ),
+
                           child: Column(
                             children: [
                               Text(
@@ -150,7 +193,7 @@ class Onbording extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                VetOnboardingScreen(),
+                                                const ServiceOnboardingScreen(),
                                           ),
                                         );
                                       },
@@ -170,6 +213,33 @@ class Onbording extends StatelessWidget {
                                 ],
                               ),
                             ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 8,
+                        top: -200,
+                        bottom: 200,
+                        child: Opacity(
+                          opacity: 0.15,
+                          child: Icon(
+                            Icons.pets,
+                            size: 180,
+                            color: AppColors.accentColor,
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        left: 8,
+                        top: -200,
+                        bottom: 200,
+                        child: Opacity(
+                          opacity: 0.15,
+                          child: Icon(
+                            Icons.pets,
+                            size: 180,
+                            color: AppColors.accentColor,
                           ),
                         ),
                       ),

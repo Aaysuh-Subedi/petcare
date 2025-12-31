@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:petcare/Screens/onboarding_screen.dart';
+import 'package:petcare/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:petcare/app/theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {

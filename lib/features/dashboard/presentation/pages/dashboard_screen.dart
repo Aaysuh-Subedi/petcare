@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:petcare/Screens/bottom_screen/discover_screen.dart';
-import 'package:petcare/Screens/bottom_screen/explore_screen.dart';
-import 'package:petcare/Screens/bottom_screen/home_screen.dart';
-import 'package:petcare/Screens/bottom_screen/profile_screen.dart';
+import 'package:petcare/features/bottomnavigation/presentation/pages/discover_screen.dart';
+import 'package:petcare/features/bottomnavigation/presentation/pages/explore_screen.dart';
+import 'package:petcare/features/bottomnavigation/presentation/pages/home_screen.dart';
+import 'package:petcare/features/bottomnavigation/presentation/pages/profile_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
