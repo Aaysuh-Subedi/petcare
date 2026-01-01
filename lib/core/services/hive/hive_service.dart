@@ -1,6 +1,7 @@
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:petcare/core/constants/hive_table_constant.dart';
+import 'package:petcare/features/auth/data/models/auth_hive_model.dart';
 import 'package:petcare/features/provider/data/model/provider_hive_model.dart';
 
 class HiveService {
@@ -17,11 +18,17 @@ class HiveService {
     if (!Hive.isAdapterRegistered(HiveTableConstant.providerTypeId)) {
       Hive.registerAdapter(ProviderHiveModelAdapter());
     }
+
+    // Register
+    if (!Hive.isAdapterRegistered(HiveTableConstant.userTypeId)) {
+      Hive.registerAdapter(ProviderHiveModelAdapter());
+    }
   }
 
   // Open Boxes
   Future<void> openBoxes() async {
     await Hive.openBox<ProviderHiveModel>(HiveTableConstant.providerTable);
+    await Hive.openBox<AuthHiveModel>(HiveTableConstant.userTable);
   }
 
   // Close Boxes
@@ -53,4 +60,33 @@ class HiveService {
   }
 
   // delete
+
+  // _____________________________________- Queries Auth ____________________________________________
+
+  Box<AuthHiveModel> get _authBox =>
+      Hive.box<AuthHiveModel>(HiveTableConstant.userTable);
+
+  Future<AuthHiveModel> createUser(AuthHiveModel model) async {
+    await _authBox.put(model.userId, model);
+    return model;
+  }
+
+  Future<AuthHiveModel?> loginUser(String email, String password) async {
+    try {
+      final user = _authBox.values.where(
+        (user) => user.email == email && user.password == password,
+      );
+      return user.first;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<void> logoutUser(String userId) async {
+    await _authBox.delete(userId);
+  }
+
+  Future<AuthHiveModel?> getCurrentUser(String userId) async {
+    return _authBox.get(userId);
+  }
 }
