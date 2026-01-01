@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:petcare/Screens/service_onboarding_screen.dart';
-import 'package:petcare/theme/app_colors.dart';
+import 'package:petcare/features/onboarding/presentation/pages/vet_onboarding_screen.dart';
+import 'package:petcare/app/theme/app_colors.dart';
 
-class VetOnboardingScreen extends StatelessWidget {
-  const VetOnboardingScreen({super.key});
+class Onbording extends StatelessWidget {
+  const Onbording({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,48 +17,6 @@ class VetOnboardingScreen extends StatelessWidget {
               top: 140,
               child: Opacity(
                 opacity: 0.12,
-                child: Icon(
-                  Icons.pets,
-                  size: 180,
-                  color: AppColors.accentColor,
-                ),
-              ),
-            ),
-
-            Positioned(
-              right: 140,
-              top: 140,
-              bottom: 150,
-              child: Opacity(
-                opacity: 0.12,
-                child: Icon(
-                  Icons.pets,
-                  size: 180,
-                  color: AppColors.accentColor,
-                ),
-              ),
-            ),
-
-            Positioned(
-              left: 8,
-              top: 140,
-              bottom: 200,
-              child: Opacity(
-                opacity: 0.15,
-                child: Icon(
-                  Icons.pets,
-                  size: 180,
-                  color: AppColors.accentColor,
-                ),
-              ),
-            ),
-
-            Positioned(
-              left: 8,
-              top: -200,
-              bottom: 200,
-              child: Opacity(
-                opacity: 0.15,
                 child: Icon(
                   Icons.pets,
                   size: 180,
@@ -82,7 +40,7 @@ class VetOnboardingScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              'Care',
+                              'Find Your',
                               style: Theme.of(context).textTheme.displayLarge
                                   ?.copyWith(
                                     fontWeight: FontWeight.w800,
@@ -91,7 +49,7 @@ class VetOnboardingScreen extends StatelessWidget {
                                   ),
                             ),
                             Text(
-                              'with',
+                              'Furry',
                               style: Theme.of(context).textTheme.displayLarge
                                   ?.copyWith(
                                     fontWeight: FontWeight.w800,
@@ -100,7 +58,7 @@ class VetOnboardingScreen extends StatelessWidget {
                                   ),
                             ),
                             Text(
-                              'Passion',
+                              'Favorite',
                               style: Theme.of(context).textTheme.displayLarge
                                   ?.copyWith(
                                     fontWeight: FontWeight.w800,
@@ -148,7 +106,7 @@ class VetOnboardingScreen extends StatelessWidget {
                   width: double.infinity,
                   child: Center(
                     child: Image.asset(
-                      'assets/images/cat.png',
+                      'assets/images/dog.png',
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -175,7 +133,6 @@ class VetOnboardingScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-
                           child: Column(
                             children: [
                               Text(
@@ -193,7 +150,7 @@ class VetOnboardingScreen extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const ServiceOnboardingScreen(),
+                                                VetOnboardingScreen(),
                                           ),
                                         );
                                       },
@@ -213,33 +170,6 @@ class VetOnboardingScreen extends StatelessWidget {
                                 ],
                               ),
                             ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 8,
-                        top: -200,
-                        bottom: 200,
-                        child: Opacity(
-                          opacity: 0.15,
-                          child: Icon(
-                            Icons.pets,
-                            size: 180,
-                            color: AppColors.accentColor,
-                          ),
-                        ),
-                      ),
-
-                      Positioned(
-                        left: 8,
-                        top: -200,
-                        bottom: 200,
-                        child: Opacity(
-                          opacity: 0.15,
-                          child: Icon(
-                            Icons.pets,
-                            size: 180,
-                            color: AppColors.accentColor,
                           ),
                         ),
                       ),

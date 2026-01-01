@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:petcare/Screens/dashboard_screen.dart';
-import 'package:petcare/Screens/signup.dart';
-import 'package:petcare/widget/mytextformfield.dart';
-import 'package:petcare/theme/app_colors.dart';
+import 'package:petcare/features/dashboard/presentation/pages/dashboard_screen.dart';
+import 'package:petcare/features/auth/presentation/pages/signup.dart';
+import 'package:petcare/core/widget/mytextformfield.dart';
+import 'package:petcare/app/theme/app_colors.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -35,21 +35,18 @@ class _LoginState extends State<Login> {
   }
 
   void _tryLogin() {
-    // Trigger field validators
     final isValid = _formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
-      // Show a friendly message and stop navigation
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fix the errors above.')),
       );
       return;
     }
 
-    // If valid, proceed to dashboard
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Dashboard()),
+      MaterialPageRoute(builder: (context) => const Dashboard()),
     );
   }
 
@@ -84,7 +81,6 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
               child: Column(
@@ -106,7 +102,6 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   const SizedBox(height: 28),
-
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
@@ -148,12 +143,10 @@ class _LoginState extends State<Login> {
                               ),
                               focusNode: _emailFocusNode,
                               filled: true,
-                              fillcolor: AppColors.surfaceColor,
+                              fillcolor: AppColors.backgroundColor,
                             ),
                           ),
-
                           const SizedBox(height: 18),
-
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(18),
@@ -180,9 +173,7 @@ class _LoginState extends State<Login> {
                               obscureText: true,
                             ),
                           ),
-
                           const SizedBox(height: 24),
-
                           SizedBox(
                             width: double.infinity,
                             height: 56,
@@ -191,9 +182,7 @@ class _LoginState extends State<Login> {
                               child: const Text('Login'),
                             ),
                           ),
-
                           const SizedBox(height: 18),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
