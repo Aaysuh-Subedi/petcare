@@ -3,6 +3,7 @@ import 'package:petcare/features/dashboard/presentation/pages/dashboard_screen.d
 import 'package:petcare/features/auth/presentation/pages/signup.dart';
 import 'package:petcare/core/widget/mytextformfield.dart';
 import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_login_screen.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -209,6 +210,18 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                             ],
+                          ),
+                          const SizedBox(height: 12),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const ProviderLoginScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text('Login as provider'),
                           ),
                         ],
                       ),

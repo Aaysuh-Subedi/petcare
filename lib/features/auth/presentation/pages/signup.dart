@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare/features/auth/presentation/pages/login.dart';
 import 'package:petcare/core/widget/mytextformfield.dart';
 import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_setup_screen.dart';
 // import 'package:petcare/Screens/Dashboard.dart'; // Uncomment if you plan to navigate there.
 
 class Signup extends StatefulWidget {
@@ -28,6 +29,8 @@ class _SignupState extends State<Signup> {
 
   // Form key
   final _formKey = GlobalKey<FormState>();
+
+  bool _isProvider = false;
 
   @override
   void initState() {
@@ -218,6 +221,46 @@ class _SignupState extends State<Signup> {
                             },
                           ),
 
+                          const SizedBox(height: 18),
+
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Account type',
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _roleChip(
+                                  label: 'Pet owner',
+                                  selected: !_isProvider,
+                                  onTap: () {
+                                    setState(() {
+                                      _isProvider = false;
+                                    });
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: _roleChip(
+                                  label: 'Provider',
+                                  selected: _isProvider,
+                                  onTap: () {
+                                    setState(() {
+                                      _isProvider = true;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+
                           const SizedBox(height: 24),
 
                           SizedBox(
@@ -226,12 +269,22 @@ class _SignupState extends State<Signup> {
                             child: ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Login(),
-                                    ),
-                                  );
+                                  if (_isProvider) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ProviderSetupScreen(),
+                                      ),
+                                    );
+                                  } else {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Login(),
+                                      ),
+                                    );
+                                  }
                                 }
                               },
                               child: const Text('Sign Up'),
@@ -275,6 +328,36 @@ class _SignupState extends State<Signup> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _roleChip({
+    required String label,
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Ink(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+        decoration: BoxDecoration(
+          color: selected ? AppColors.iconPrimaryColor : AppColors.surfaceColor,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: selected ? AppColors.iconPrimaryColor : Colors.black12,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              color: selected ? Colors.white : Colors.black87,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ),
     );

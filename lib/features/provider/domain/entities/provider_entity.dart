@@ -7,7 +7,7 @@ class ProviderEntity extends Equatable {
   final String? phone;
   final String? rating;
 
-  ProviderEntity({
+  const ProviderEntity({
     this.providerId,
     required this.business_Name,
     this.address,
