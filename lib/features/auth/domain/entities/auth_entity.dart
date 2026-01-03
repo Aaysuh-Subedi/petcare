@@ -10,7 +10,7 @@ class AuthEntity extends Equatable {
   final String? password;
   final String? avatar;
 
-  AuthEntity({
+  const AuthEntity({
     required this.userId,
     required this.email,
     required this.FirstName,
