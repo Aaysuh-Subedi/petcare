@@ -37,13 +37,21 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
       data: {'email': email, 'password': password},
     );
     if (response.data['success'] == true) {
-      final data = response.data['data'] as Map<String, dynamic>;
+      final data = response.data['data'];
+      if (data is! Map<String, dynamic>) {
+        return null;
+      }
       final user = AuthApiModel.fromJSON(data);
+      final safeFirstName = (user.Firstname?.isNotEmpty ?? false)
+          ? user.Firstname!
+          : (user.username?.isNotEmpty ?? false)
+          ? user.username!
+          : user.email.split('@').first;
 
       // Saving the user session
       await _sessionService.saveSession(
         userId: user.id ?? '',
-        firstName: user.firstName ?? user.username,
+        firstName: safeFirstName,
         email: user.email,
       );
       return user;
@@ -60,9 +68,11 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
     );
 
     if (response.data['success'] == true) {
-      final data = response.data['data'] as Map<String, dynamic>;
-      final registerdUser = AuthApiModel.fromJSON(data);
-      return registerdUser;
+      final data = response.data['data'];
+      if (data is Map<String, dynamic>) {
+        final registerdUser = AuthApiModel.fromJSON(data);
+        return registerdUser;
+      }
     }
     return user;
   }

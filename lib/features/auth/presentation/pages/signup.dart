@@ -4,8 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Removed shared UI widgets per request; using inline fields
 import 'package:petcare/features/auth/di/auth_providers.dart';
 import 'package:petcare/features/auth/domain/usecases/register_usecase.dart';
+import 'package:petcare/features/auth/domain/usecases/login_usecase.dart';
 import 'package:petcare/features/auth/presentation/pages/login.dart';
 import 'package:petcare/features/provider/presentation/screens/provider_setup_screen.dart';
+import 'package:petcare/core/providers/session_providers.dart';
+import 'package:petcare/features/dashboard/presentation/pages/dashboard_screen.dart';
 
 class Signup extends ConsumerStatefulWidget {
   const Signup({super.key});
@@ -22,6 +25,7 @@ class _SignupState extends ConsumerState<Signup>
   final _confirmPasswordController = TextEditingController();
   final _fnameController = TextEditingController();
   final _lnameController = TextEditingController();
+  final _phoneController = TextEditingController();
 
   // Focus nodes
   final FocusNode _newEmailFocusNode = FocusNode();
@@ -29,6 +33,7 @@ class _SignupState extends ConsumerState<Signup>
   final FocusNode _confirmPasswordFocusNode = FocusNode();
   final FocusNode _fnameFocusNode = FocusNode();
   final FocusNode _lnameFocusNode = FocusNode();
+  final FocusNode _phoneFocusNode = FocusNode();
 
   // Form key
   final _formKey = GlobalKey<FormState>();
@@ -66,6 +71,7 @@ class _SignupState extends ConsumerState<Signup>
     _confirmPasswordController.dispose();
     _fnameController.dispose();
     _lnameController.dispose();
+    _phoneController.dispose();
 
     // Dispose focus nodes
     _newEmailFocusNode.dispose();
@@ -73,6 +79,7 @@ class _SignupState extends ConsumerState<Signup>
     _confirmPasswordFocusNode.dispose();
     _fnameFocusNode.dispose();
     _lnameFocusNode.dispose();
+    _phoneFocusNode.dispose();
 
     super.dispose();
   }
@@ -267,6 +274,24 @@ class _SignupState extends ConsumerState<Signup>
                                   }
                                   if (!value.contains('@')) {
                                     return 'Enter a valid email';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 16),
+                              _field(
+                                controller: _phoneController,
+                                focusNode: _phoneFocusNode,
+                                hint: '+1234567890',
+                                label: 'Phone Number',
+                                icon: Icons.phone_outlined,
+                                keyboardType: TextInputType.phone,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Phone number is required';
+                                  }
+                                  if (value.length < 10) {
+                                    return 'Enter a valid phone number';
                                   }
                                   return null;
                                 },
@@ -593,8 +618,10 @@ class _SignupState extends ConsumerState<Signup>
 
         final email = _newEmailController.text.trim();
         final password = _newPasswordController.text;
+        final confirmPassword = _confirmPasswordController.text;
         final firstName = _fnameController.text.trim();
         final lastName = _lnameController.text.trim();
+        final phoneNumber = _phoneController.text.trim();
 
         final result = await usecase(
           RegisterUsecaseParams(
@@ -602,6 +629,8 @@ class _SignupState extends ConsumerState<Signup>
             firstName: firstName,
             lastName: lastName,
             password: password,
+            confirmPassword: confirmPassword,
+            phoneNumber: phoneNumber,
           ),
         );
 

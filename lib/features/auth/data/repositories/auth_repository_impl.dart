@@ -22,12 +22,27 @@ class AuthRepositoryImpl implements IAuthRepository {
        _networkInfo = networkInfo;
 
   @override
-  Future<Either<Failure, bool>> register(AuthEntity entity) async {
+  Future<Either<Failure, bool>> register(
+    AuthEntity entity,
+    String confirmPassword,
+  ) async {
     try {
       if (await _networkInfo.isConnected) {
         // Online: use remote API
         final apiModel = AuthApiModel.fromEntity(entity);
-        await _remoteDataSource.register(apiModel);
+        // Create a new model with confirmPassword for API request
+        final apiModelWithConfirm = AuthApiModel(
+          id: apiModel.id,
+          Firstname: apiModel.Firstname,
+          Lastname: apiModel.Lastname,
+          email: apiModel.email,
+          phoneNumber: apiModel.phoneNumber,
+          username: apiModel.username,
+          password: apiModel.password,
+          confirmPassword: confirmPassword,
+          avatar: apiModel.avatar,
+        );
+        await _remoteDataSource.register(apiModelWithConfirm);
         return const Right(true);
       } else {
         // Offline: fallback to local Hive
