@@ -63,4 +63,9 @@ class ProviderApiModel {
       rating: entity.rating,
     );
   }
+
+  // TO ENTITY LIST
+  static List<ProviderEntity> toEntityList(List<ProviderApiModel> models) {
+    return models.map((model) => model.toEntity()).toList();
+  }
 }

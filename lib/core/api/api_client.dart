@@ -133,6 +133,9 @@ class _AuthInterceptor extends Interceptor {
       ApiEndpoints.user,
       ApiEndpoints.userLogin,
       ApiEndpoints.userRegister,
+      ApiEndpoints.provider,
+      ApiEndpoints.providerLogin,
+      ApiEndpoints.providerRegister,
     ];
 
     final isPublicGet =
@@ -141,7 +144,9 @@ class _AuthInterceptor extends Interceptor {
 
     final isAuthEndpoint =
         options.path == ApiEndpoints.userLogin ||
-        options.path == ApiEndpoints.userRegister;
+        options.path == ApiEndpoints.userRegister ||
+        options.path == ApiEndpoints.providerLogin ||
+        options.path == ApiEndpoints.providerRegister;
 
     if (!isPublicGet && !isAuthEndpoint) {
       final token = await _storage.read(key: _tokenKey);

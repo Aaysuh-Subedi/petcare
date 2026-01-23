@@ -45,7 +45,13 @@ class ProviderHiveModel extends HiveObject {
   // FromEntity
 
   factory ProviderHiveModel.fromEntity(ProviderEntity entity) {
-    return ProviderHiveModel(business_Name: entity.businessName);
+    return ProviderHiveModel(
+      providerId: entity.providerId.isNotEmpty ? entity.providerId : null,
+      business_Name: entity.businessName,
+      address: entity.address,
+      phone: entity.phone,
+      rating: entity.rating.toString(),
+    );
   }
 
   // ToEntityList

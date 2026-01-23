@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/app/theme/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// Removed shared UI widgets per request; using inline fields
 import 'package:petcare/features/auth/di/auth_providers.dart';
 import 'package:petcare/features/auth/domain/usecases/register_usecase.dart';
-import 'package:petcare/features/auth/domain/usecases/login_usecase.dart';
 import 'package:petcare/features/auth/presentation/pages/login.dart';
 import 'package:petcare/features/provider/presentation/screens/provider_setup_screen.dart';
-import 'package:petcare/core/providers/session_providers.dart';
-import 'package:petcare/features/dashboard/presentation/pages/dashboard_screen.dart';
 
 class Signup extends ConsumerStatefulWidget {
   const Signup({super.key});
@@ -619,41 +615,41 @@ class _SignupState extends ConsumerState<Signup>
         final email = _newEmailController.text.trim();
         final password = _newPasswordController.text;
         final confirmPassword = _confirmPasswordController.text;
-        final firstName = _fnameController.text.trim();
-        final lastName = _lnameController.text.trim();
-        final phoneNumber = _phoneController.text.trim();
+      final firstName = _fnameController.text.trim();
+      final lastName = _lnameController.text.trim();
+      final phoneNumber = _phoneController.text.trim();
 
-        final result = await usecase(
-          RegisterUsecaseParams(
-            email: email,
-            firstName: firstName,
-            lastName: lastName,
-            password: password,
-            confirmPassword: confirmPassword,
-            phoneNumber: phoneNumber,
-          ),
-        );
+      final result = await usecase(
+        RegisterUsecaseParams(
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          password: password,
+          confirmPassword: confirmPassword,
+          phoneNumber: phoneNumber,
+        ),
+      );
 
-        if (!mounted) return;
+      if (!mounted) return;
 
-        result.fold(
-          (failure) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(failure.message)));
-          },
-          (_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Account created successfully. Please log in.'),
-              ),
-            );
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const Login()),
-            );
-          },
-        );
+      result.fold(
+        (failure) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(failure.message)));
+        },
+        (_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Account created successfully. Please log in.'),
+            ),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Login()),
+          );
+        },
+      );
       }
     } finally {
       if (!mounted) return;
