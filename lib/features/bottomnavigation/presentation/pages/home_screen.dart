@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/features/pet/presentation/pages/add_pet.dart';
 
 class HomeScreen extends StatefulWidget {
   final String firstName;
@@ -272,7 +273,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   ),
                                   const SizedBox(height: 20),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const AddPet(),
+                                        ),
+                                      );
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.white,
                                       foregroundColor:
