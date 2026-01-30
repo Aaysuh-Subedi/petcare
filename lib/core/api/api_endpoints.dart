@@ -11,17 +11,17 @@ class ApiEndpoints {
 
   static String get baseUrl {
     if (isPhysicalDevice) {
-      return 'http://$compIpAddress:5050/api/auth/';
+      return 'http://$compIpAddress:5050/api/';
     }
 
     if (kIsWeb) {
-      return 'http://localhost:5050/api/auth/';
+      return 'http://localhost:5050/api/';
     } else if (Platform.isAndroid) {
-      return 'http://10.0.2.2:5050/api/auth/';
+      return 'http://10.0.2.2:5050/api/';
     } else if (Platform.isIOS) {
-      return 'http://localhost:5050/api/auth/';
+      return 'http://localhost:5050/api/';
     } else {
-      return 'http://localhost:5050/api/auth/';
+      return 'http://localhost:5050/api/';
     }
   }
 
@@ -29,9 +29,9 @@ class ApiEndpoints {
   static const Duration receiveTimeout = Duration(seconds: 15);
 
   // -------------------------- AUTH -------------------------
-  static const String user = 'user';
-  static const String userLogin = 'login';
-  static const String userRegister = 'register';
+  static const String user = 'auth/user';
+  static const String userLogin = 'auth/login';
+  static const String userRegister = 'auth/register';
 
   // ------------------------ PROVIDER -----------------------
   static const String provider = 'provider';
@@ -43,4 +43,11 @@ class ApiEndpoints {
   static const String providerCreate = '/providers';
   static const String providerUpdate = '/providers';
   static const String providerDelete = '/providers';
+
+  // ------------------------ PET ----------------------------
+  static const String petGetAll = '/pet';
+  static const String petById = '/pet';
+  static const String petCreate = '/pet';
+  static const String petUpdate = '/pet';
+  static const String petDelete = '/pet';
 }

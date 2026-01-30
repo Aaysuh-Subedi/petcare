@@ -6,7 +6,7 @@ import 'package:petcare/core/services/session/session_service.dart';
 import 'package:petcare/features/auth/data/datasources/auth_datasource.dart';
 import 'package:petcare/features/auth/data/models/auth_api_model.dart';
 
-// create a provider for AuthRemoteDatasource
+// Provider for AuthRemoteDatasource
 final authRemoteDatasourceProvider = Provider<IAuthRemoteDataSource>((ref) {
   return AuthRemoteDatasource(
     apiClient: ref.read(apiClientProvider),
@@ -36,24 +36,31 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
       ApiEndpoints.userLogin,
       data: {'email': email, 'password': password},
     );
+
     if (response.data['success'] == true) {
       final data = response.data['data'];
+      final token = response.data['token']; // Extract token from response
+
       if (data is! Map<String, dynamic>) {
         return null;
       }
+
       final user = AuthApiModel.fromJSON(data);
+
       final safeFirstName = (user.Firstname?.isNotEmpty ?? false)
           ? user.Firstname!
           : (user.username?.isNotEmpty ?? false)
           ? user.username!
           : user.email.split('@').first;
 
-      // Saving the user session
+      // Save session with token
       await _sessionService.saveSession(
         userId: user.id ?? '',
         firstName: safeFirstName,
         email: user.email,
+        token: token, // Save the JWT token
       );
+
       return user;
     }
 
@@ -70,10 +77,11 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
     if (response.data['success'] == true) {
       final data = response.data['data'];
       if (data is Map<String, dynamic>) {
-        final registerdUser = AuthApiModel.fromJSON(data);
-        return registerdUser;
+        final registeredUser = AuthApiModel.fromJSON(data);
+        return registeredUser;
       }
     }
+
     return user;
   }
 }

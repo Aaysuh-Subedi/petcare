@@ -47,14 +47,16 @@ class SessionController extends StateNotifier<SessionState> {
   SessionController(this._service) : super(SessionState.initial);
 
   Future<void> load() async {
-    final logged = await _service.isLoggedIn();
+    final logged = _service.isLoggedIn(); // Remove await
     if (!logged) {
       state = SessionState.initial;
       return;
     }
-    final userId = await _service.getUserId();
-    final firstName = await _service.getFirstName();
-    final email = await _service.getEmail();
+
+    final userId = _service.getUserId(); // Remove await
+    final firstName = _service.getFirstName(); // Remove await
+    final email = _service.getEmail(); // Remove await
+
     state = SessionState(
       isLoggedIn: true,
       userId: userId,
