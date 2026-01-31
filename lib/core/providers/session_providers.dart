@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:petcare/core/providers/shared_prefs_provider.dart';
 import 'package:petcare/core/services/session/session_service.dart';
 
 class SessionState {
@@ -33,7 +34,8 @@ class SessionState {
 }
 
 final sessionServiceProvider = Provider<SessionService>((ref) {
-  return SessionService();
+  final prefs = ref.read(sharedPrefsProvider);
+  return SessionService(prefs);
 });
 
 final sessionStateProvider =

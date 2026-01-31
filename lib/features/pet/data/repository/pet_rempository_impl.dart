@@ -21,7 +21,10 @@ class PetRepositoryImpl implements IPetRepository {
       final apiModel = PetApiModel.fromEntity(pet);
 
       // Call remote data source (image path is in imageUrl if local)
-      final String? imagePath = pet.imageUrl?.startsWith('/') ?? false
+      final String? imagePath =
+          (pet.imageUrl != null &&
+              pet.imageUrl!.startsWith('/') &&
+              !pet.imageUrl!.startsWith('/uploads'))
           ? pet.imageUrl
           : null;
 
@@ -62,7 +65,10 @@ class PetRepositoryImpl implements IPetRepository {
     if (await _networkInfo.isConnected) {
       final apiModel = PetApiModel.fromEntity(pet);
 
-      final String? imagePath = pet.imageUrl?.startsWith('/') ?? false
+      final String? imagePath =
+          (pet.imageUrl != null &&
+              pet.imageUrl!.startsWith('/') &&
+              !pet.imageUrl!.startsWith('/uploads'))
           ? pet.imageUrl
           : null;
 

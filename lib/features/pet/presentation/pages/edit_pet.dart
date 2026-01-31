@@ -4,26 +4,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petcare/app/theme/app_colors.dart';
-import 'package:petcare/features/pet/domain/usecase/addpet_usecase.dart';
+import 'package:petcare/features/pet/domain/entities/pet_entity.dart';
+import 'package:petcare/features/pet/domain/usecase/update_pet_usecase.dart';
 import 'package:petcare/features/pet/presentation/provider/pet_providers.dart';
 
-class AddPet extends ConsumerStatefulWidget {
-  const AddPet({super.key});
+class EditPetScreen extends ConsumerStatefulWidget {
+  final PetEntity pet;
+
+  const EditPetScreen({super.key, required this.pet});
 
   @override
-  ConsumerState<AddPet> createState() => _AddPetState();
+  ConsumerState<EditPetScreen> createState() => _EditPetScreenState();
 }
 
-class _AddPetState extends ConsumerState<AddPet> {
+class _EditPetScreenState extends ConsumerState<EditPetScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _breedController = TextEditingController();
-  final _ageController = TextEditingController();
-  final _weightController = TextEditingController();
+  late final TextEditingController _nameController;
+  late final TextEditingController _breedController;
+  late final TextEditingController _ageController;
+  late final TextEditingController _weightController;
 
-  String _selectedSpecies = 'dog';
+  late String _selectedSpecies;
   File? _imageFile;
   final _imagePicker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(text: widget.pet.name);
+    _breedController = TextEditingController(text: widget.pet.breed ?? '');
+    _ageController = TextEditingController(
+      text: widget.pet.age?.toString() ?? '',
+    );
+    _weightController = TextEditingController(
+      text: widget.pet.weight?.toString() ?? '',
+    );
+    _selectedSpecies = widget.pet.species;
+  }
 
   @override
   void dispose() {
@@ -54,7 +71,8 @@ class _AddPetState extends ConsumerState<AddPet> {
         ? double.tryParse(_weightController.text)
         : null;
 
-    final params = AddPetUsecaseParams(
+    final params = UpdatePetParams(
+      petId: widget.pet.petId ?? '',
       name: _nameController.text.trim(),
       species: _selectedSpecies,
       breed: _breedController.text.trim().isEmpty
@@ -62,23 +80,25 @@ class _AddPetState extends ConsumerState<AddPet> {
           : _breedController.text.trim(),
       age: age,
       weight: weight,
-      imageUrl: _imageFile?.path,
+      imageUrl: _imageFile?.path ?? widget.pet.imageUrl,
     );
 
-    final success = await ref.read(petNotifierProvider.notifier).addPet(params);
+    final success = await ref
+        .read(petNotifierProvider.notifier)
+        .updatePet(params);
 
     if (!mounted) return;
 
     if (success) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Pet added successfully')));
+      ).showSnackBar(const SnackBar(content: Text('Pet updated successfully')));
       Navigator.pop(context, true);
     } else {
       final error = ref.read(petNotifierProvider).error;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text(error ?? 'Failed to add pet')));
+      ).showSnackBar(SnackBar(content: Text(error ?? 'Failed to update pet')));
     }
   }
 
@@ -88,7 +108,7 @@ class _AddPetState extends ConsumerState<AddPet> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        title: const Text('Add Pet'),
+        title: const Text('Edit Pet'),
         backgroundColor: AppColors.backgroundColor,
         elevation: 0,
       ),
@@ -183,7 +203,7 @@ class _AddPetState extends ConsumerState<AddPet> {
                                   strokeWidth: 2,
                                 ),
                               )
-                            : const Text('Save Pet'),
+                            : const Text('Update Pet'),
                       ),
                     ),
                   ],
