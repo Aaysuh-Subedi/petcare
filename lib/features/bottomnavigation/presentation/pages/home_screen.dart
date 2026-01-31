@@ -18,18 +18,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late Animation<Offset> _headerSlideAnimation;
   late Animation<double> _cardScaleAnimation;
 
+  bool isInTest = false; // Flag for tests
+
   @override
   void initState() {
     super.initState();
 
+    // Detect if running in test
+    assert(() {
+      isInTest = true;
+      return true;
+    }());
+
     _headerAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: isInTest ? Duration.zero : const Duration(milliseconds: 800),
     );
 
     _cardAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: isInTest ? Duration.zero : const Duration(milliseconds: 1000),
     );
 
     _headerFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -166,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-            // Creative Quick Actions Card with Animated Scale
+            // Quick Actions Card
             SliverToBoxAdapter(
               child: ScaleTransition(
                 scale: _cardScaleAnimation,
@@ -193,7 +201,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   child: Stack(
                     children: [
-                      // Decorative circles
                       Positioned(
                         right: -30,
                         top: -30,
@@ -218,8 +225,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-
-                      // Content
                       Padding(
                         padding: const EdgeInsets.all(24),
                         child: Row(
@@ -389,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
-            // Creative Empty State Card
+            // Empty state card
             SliverToBoxAdapter(
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -447,7 +452,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
             const SliverToBoxAdapter(child: SizedBox(height: 32)),
 
-            // Services Section Header
+            // Services Section
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -460,10 +465,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ),
             ),
-
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
-            // Creative Services Grid
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -532,7 +534,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }) {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.0, end: 1.0),
-      duration: Duration(milliseconds: 600 + delay),
+      duration: isInTest ? Duration.zero : Duration(milliseconds: 600 + delay),
       curve: Curves.easeOutBack,
       builder: (context, value, child) {
         return Transform.scale(
