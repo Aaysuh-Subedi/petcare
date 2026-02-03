@@ -19,7 +19,7 @@ class _DashboardState extends State<Dashboard> {
     HomeScreen(firstName: widget.firstName),
     const ExploreScreen(),
     const DiscoverScreen(),
-    ProfileScreen(firstName: widget.firstName, email: widget.email),
+    const ProfileScreen(),
   ];
   final List<_NavItem> _navItems = const [
     _NavItem(
