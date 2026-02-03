@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:petcare/core/error/failures.dart';
 import 'package:petcare/core/services/connectivity/network_info.dart';
@@ -168,6 +167,7 @@ class AuthRepositoryImpl implements IAuthRepository {
           phoneNumber: phoneNumber,
           imageFile: imageFile,
         );
+
         return Right(updated.toEntity());
       } catch (e) {
         return Left(ServerFailure(message: e.toString()));
