@@ -5,7 +5,7 @@ import 'package:petcare/core/providers/session_providers.dart';
 import 'package:petcare/core/widget/mytextformfield.dart';
 import 'package:petcare/features/provider/di/provider_providers.dart';
 import 'package:petcare/features/provider/domain/usecases/provider_login_usecase.dart';
-import 'package:petcare/features/provider/presentation/screens/provider_dashboard_screen.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_main_dashboard.dart';
 
 class ProviderLoginScreen extends ConsumerStatefulWidget {
   const ProviderLoginScreen({super.key});
@@ -69,7 +69,7 @@ class _ProviderLoginScreenState extends ConsumerState<ProviderLoginScreen> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const ProviderDashboardScreen()),
+          MaterialPageRoute(builder: (_) => const ProviderDashboard()),
         );
       },
     );
