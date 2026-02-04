@@ -9,7 +9,7 @@ import 'package:petcare/features/auth/presentation/pages/login.dart';
 import 'package:petcare/features/auth/presentation/view_model/profile_view_model.dart';
 import 'package:petcare/features/bottomnavigation/presentation/pages/edit_profile_screen.dart';
 import 'package:petcare/features/pet/presentation/pages/my_pet.dart';
-
+ 
 // Modern color palette
 class ProfileColors {
   static const Color primary = Color(0xFF6C63FF);
