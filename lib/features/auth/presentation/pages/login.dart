@@ -67,23 +67,45 @@ class _LoginState extends ConsumerState<Login>
   }
 
   Future<void> _tryLogin() async {
-    if (!(_formKey.currentState?.validate() ?? false)) return;
+    if (!(_formKey.currentState?.validate() ?? false)) {
+      print('❌ UI LOGIN: Form validation failed');
+      return;
+    }
+
+    print(
+      '🚀 UI LOGIN: Starting login attempt for email: ${_emailController.text.trim()}',
+    );
 
     setState(() => _isLoading = true);
 
     final usecase = ref.read(loginUsecaseProvider);
-
-    final result = await usecase(
-      LoginUsecaseParams(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      ),
+    final params = LoginUsecaseParams(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
     );
 
-    if (!mounted) return;
+    print(
+      '📤 UI LOGIN: Calling usecase with params: email="${params.email}", password length=${params.password.length}',
+    );
+    print(
+      '🔍 UI LOGIN: Raw password controller text: "${_passwordController.text}" (length: ${_passwordController.text.length})',
+    );
+    print(
+      '🔍 UI LOGIN: Trimmed password: "${params.password}" (length: ${params.password.length})',
+    );
+
+    final result = await usecase(params);
+
+    if (!mounted) {
+      print('⚠️ UI LOGIN: Widget not mounted after login attempt');
+      return;
+    }
 
     result.fold(
       (failure) {
+        print('❌ UI LOGIN: Login failed - ${failure.message}');
+        print('🔍 UI LOGIN: Failure type: ${failure.runtimeType}');
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(failure.message),
@@ -96,6 +118,10 @@ class _LoginState extends ConsumerState<Login>
         );
       },
       (user) async {
+        print(
+          '✅ UI LOGIN: Login successful for user: ${user.email} (ID: ${user.userId})',
+        );
+
         await ref
             .read(sessionStateProvider.notifier)
             .setSession(
@@ -103,6 +129,8 @@ class _LoginState extends ConsumerState<Login>
               firstName: user.FirstName,
               email: user.email,
             );
+
+        print('🧭 UI LOGIN: Navigating to dashboard');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -113,7 +141,10 @@ class _LoginState extends ConsumerState<Login>
       },
     );
 
-    if (mounted) setState(() => _isLoading = false);
+    if (mounted) {
+      setState(() => _isLoading = false);
+      print('🔄 UI LOGIN: Loading state reset');
+    }
   }
 
   @override

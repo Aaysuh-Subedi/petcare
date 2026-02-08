@@ -2,14 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petcare/app/theme/app_colors.dart';
 import 'package:petcare/core/api/api_endpoints.dart';
 import 'package:petcare/core/providers/session_providers.dart';
 import 'package:petcare/features/auth/presentation/pages/login.dart';
 import 'package:petcare/features/auth/presentation/view_model/profile_view_model.dart';
 import 'package:petcare/features/bottomnavigation/presentation/pages/edit_profile_screen.dart';
 import 'package:petcare/features/pet/presentation/pages/my_pet.dart';
- 
+
 // Modern color palette
 class ProfileColors {
   static const Color primary = Color(0xFF6C63FF);

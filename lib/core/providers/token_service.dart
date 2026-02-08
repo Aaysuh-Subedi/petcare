@@ -21,26 +21,67 @@ class TokenService {
 
   // Save token
   Future<void> saveToken(String token) async {
-    await Future.wait([
-      _prefs.setString(_tokenKey, token),
-      _secureStorage.write(key: _tokenKey, value: token),
-    ]);
+    print('💾 TOKEN SERVICE: Saving token (${token.length} characters)');
+
+    try {
+      await Future.wait([
+        _prefs.setString(_tokenKey, token),
+        _secureStorage.write(key: _tokenKey, value: token),
+      ]);
+      print(
+        '✅ TOKEN SERVICE: Token saved successfully to both SharedPreferences and SecureStorage',
+      );
+    } catch (e) {
+      print('❌ TOKEN SERVICE: Failed to save token: ${e.toString()}');
+      rethrow;
+    }
   }
 
   // Get token
   Future<String?> getToken() async {
+    print('🔍 TOKEN SERVICE: Retrieving token');
+
     final inMemoryToken = _prefs.getString(_tokenKey);
     if (inMemoryToken != null && inMemoryToken.isNotEmpty) {
+      print(
+        '✅ TOKEN SERVICE: Found token in SharedPreferences (${inMemoryToken.length} chars)',
+      );
       return inMemoryToken;
     }
-    return _secureStorage.read(key: _tokenKey);
+
+    try {
+      final secureToken = await _secureStorage.read(key: _tokenKey);
+      if (secureToken != null && secureToken.isNotEmpty) {
+        print(
+          '✅ TOKEN SERVICE: Found token in SecureStorage (${secureToken.length} chars)',
+        );
+        // Cache it in memory for future use
+        await _prefs.setString(_tokenKey, secureToken);
+        return secureToken;
+      }
+    } catch (e) {
+      print(
+        '⚠️ TOKEN SERVICE: Error reading from SecureStorage: ${e.toString()}',
+      );
+    }
+
+    print('❌ TOKEN SERVICE: No token found');
+    return null;
   }
 
   // Remove token (for logout)
   Future<void> removeToken() async {
-    await Future.wait([
-      _prefs.remove(_tokenKey),
-      _secureStorage.delete(key: _tokenKey),
-    ]);
+    print('🗑️ TOKEN SERVICE: Removing token');
+
+    try {
+      await Future.wait([
+        _prefs.remove(_tokenKey),
+        _secureStorage.delete(key: _tokenKey),
+      ]);
+      print('✅ TOKEN SERVICE: Token removed successfully from both storages');
+    } catch (e) {
+      print('❌ TOKEN SERVICE: Failed to remove token: ${e.toString()}');
+      rethrow;
+    }
   }
 }

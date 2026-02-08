@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:petcare/app/theme/app_colors.dart';
 import 'package:petcare/features/provider/presentation/screens/provider_inventory_screen.dart';
 import 'package:petcare/features/provider/presentation/screens/provider_services_screen.dart';
 

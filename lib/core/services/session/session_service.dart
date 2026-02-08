@@ -20,55 +20,92 @@ class SessionService {
     String? token,
     String? role,
   }) async {
-    await _prefs.setString(_keyUserId, userId);
-    await _prefs.setString(_keyFirstName, firstName);
-    await _prefs.setString(_keyEmail, email);
-    if (token != null) {
-      await _prefs.setString(_keyToken, token);
+    print('💾 SESSION SERVICE: Saving session for user: $email (ID: $userId)');
+
+    try {
+      await _prefs.setString(_keyUserId, userId);
+      await _prefs.setString(_keyFirstName, firstName);
+      await _prefs.setString(_keyEmail, email);
+      if (token != null) {
+        await _prefs.setString(_keyToken, token);
+        print('✅ SESSION SERVICE: Token saved (${token.length} chars)');
+      }
+      if (role != null) {
+        await _prefs.setString(_keyRole, role);
+        print('✅ SESSION SERVICE: Role saved: $role');
+      }
+      await _prefs.setBool(_keyIsLoggedIn, true);
+
+      print('✅ SESSION SERVICE: Session saved successfully');
+      print(
+        '📊 SESSION SERVICE: User ID: $userId, Name: $firstName, Email: $email',
+      );
+    } catch (e) {
+      print('❌ SESSION SERVICE: Failed to save session: ${e.toString()}');
+      rethrow;
     }
-    if (role != null) {
-      await _prefs.setString(_keyRole, role);
-    }
-    await _prefs.setBool(_keyIsLoggedIn, true);
   }
 
   // Get token - SYNCHRONOUS (SharedPreferences is already loaded)
   String? getToken() {
-    return _prefs.getString(_keyToken);
+    final token = _prefs.getString(_keyToken);
+    print(
+      '🔍 SESSION SERVICE: Retrieved token: ${token != null ? 'Present (${token.length} chars)' : 'Null'}',
+    );
+    return token;
   }
 
   // Get user ID
   String? getUserId() {
-    return _prefs.getString(_keyUserId);
+    final userId = _prefs.getString(_keyUserId);
+    print('🔍 SESSION SERVICE: Retrieved user ID: $userId');
+    return userId;
   }
 
   // Get first name
   String? getFirstName() {
-    return _prefs.getString(_keyFirstName);
+    final firstName = _prefs.getString(_keyFirstName);
+    print('🔍 SESSION SERVICE: Retrieved first name: $firstName');
+    return firstName;
   }
 
   // Get email
   String? getEmail() {
-    return _prefs.getString(_keyEmail);
+    final email = _prefs.getString(_keyEmail);
+    print('🔍 SESSION SERVICE: Retrieved email: $email');
+    return email;
   }
 
   // Get role
   String? getRole() {
-    return _prefs.getString(_keyRole);
+    final role = _prefs.getString(_keyRole);
+    print('🔍 SESSION SERVICE: Retrieved role: $role');
+    return role;
   }
 
   // Check if logged in
   bool isLoggedIn() {
-    return _prefs.getBool(_keyIsLoggedIn) ?? false;
+    final loggedIn = _prefs.getBool(_keyIsLoggedIn) ?? false;
+    print('🔍 SESSION SERVICE: Login status: $loggedIn');
+    return loggedIn;
   }
 
   // Clear session (logout)
   Future<void> clearSession() async {
-    await _prefs.remove(_keyUserId);
-    await _prefs.remove(_keyFirstName);
-    await _prefs.remove(_keyEmail);
-    await _prefs.remove(_keyToken);
-    await _prefs.remove(_keyRole);
-    await _prefs.setBool(_keyIsLoggedIn, false);
+    print('🗑️ SESSION SERVICE: Clearing session');
+
+    try {
+      await _prefs.remove(_keyUserId);
+      await _prefs.remove(_keyFirstName);
+      await _prefs.remove(_keyEmail);
+      await _prefs.remove(_keyToken);
+      await _prefs.remove(_keyRole);
+      await _prefs.setBool(_keyIsLoggedIn, false);
+
+      print('✅ SESSION SERVICE: Session cleared successfully');
+    } catch (e) {
+      print('❌ SESSION SERVICE: Failed to clear session: ${e.toString()}');
+      rethrow;
+    }
   }
 }

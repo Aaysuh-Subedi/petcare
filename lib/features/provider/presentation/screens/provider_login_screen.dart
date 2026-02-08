@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare/app/theme/app_colors.dart';
-import 'package:petcare/core/providers/session_providers.dart';
 import 'package:petcare/core/widget/mytextformfield.dart';
 import 'package:petcare/features/provider/di/provider_providers.dart';
 import 'package:petcare/features/provider/domain/usecases/provider_login_usecase.dart';

@@ -3,7 +3,6 @@ import 'package:petcare/app/theme/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare/features/provider/di/provider_providers.dart';
 import 'package:petcare/features/provider/domain/usecases/provider_register_usecase.dart';
-import 'package:petcare/core/providers/session_providers.dart';
 import 'package:petcare/features/provider/presentation/screens/provider_dashboard_screen.dart';
 import 'package:petcare/core/widget/mytextformfield.dart';
 
