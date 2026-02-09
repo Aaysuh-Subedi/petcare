@@ -7,7 +7,7 @@ class ApiEndpoints {
 
   static const bool isPhysicalDevice = true;
 
-  static const String compIpAddress = "192.168.137.1";
+  static const String compIpAddress = "172.25.0.79";
 
   static String get baseUrl => 'http://$compIpAddress:5050/';
 
