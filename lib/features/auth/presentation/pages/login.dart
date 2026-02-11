@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare/app/theme/app_colors.dart';
-import 'package:petcare/core/providers/session_providers.dart';
+import 'package:petcare/app/theme/theme_extensions.dart';
 import 'package:petcare/features/auth/domain/usecases/login_usecase.dart';
 import 'package:petcare/features/auth/presentation/pages/signup.dart';
 import 'package:petcare/features/dashboard/presentation/pages/dashboard_screen.dart';
 import 'package:petcare/features/provider/presentation/screens/provider_login_screen.dart';
 import 'package:petcare/features/auth/di/auth_providers.dart';
+import 'package:petcare/features/auth/presentation/view_model/session_notifier.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -123,7 +124,7 @@ class _LoginState extends ConsumerState<Login>
         );
 
         await ref
-            .read(sessionStateProvider.notifier)
+            .read(UserSessionNotifierProvider.notifier)
             .setSession(
               userId: user.userId,
               firstName: user.FirstName,
@@ -150,7 +151,7 @@ class _LoginState extends ConsumerState<Login>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: context.backgroundColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -162,9 +163,9 @@ class _LoginState extends ConsumerState<Login>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      AppColors.iconPrimaryColor.withOpacity(0.08),
-                      AppColors.backgroundColor,
-                      AppColors.iconPrimaryColor.withOpacity(0.05),
+                      context.primaryColor.withOpacity(0.08),
+                      context.backgroundColor,
+                      context.primaryColor.withOpacity(0.05),
                     ],
                   ),
                 ),
@@ -234,16 +235,14 @@ class _LoginState extends ConsumerState<Login>
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  AppColors.iconPrimaryColor,
-                                  AppColors.iconPrimaryColor.withOpacity(0.7),
+                                  context.primaryColor,
+                                  context.primaryColor.withOpacity(0.7),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(30),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.iconPrimaryColor.withOpacity(
-                                    0.4,
-                                  ),
+                                  color: context.primaryColor.withOpacity(0.4),
                                   blurRadius: 30,
                                   offset: const Offset(0, 15),
                                   spreadRadius: -5,
@@ -277,7 +276,7 @@ class _LoginState extends ConsumerState<Login>
                               'Sign in to continue to PawCare',
                               style: Theme.of(context).textTheme.bodyLarge
                                   ?.copyWith(
-                                    color: Colors.black.withOpacity(0.6),
+                                    color: context.textPrimary.withOpacity(0.6),
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16,
                                   ),
@@ -299,7 +298,7 @@ class _LoginState extends ConsumerState<Login>
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.08),
+                              color: context.textPrimary.withOpacity(0.08),
                               blurRadius: 40,
                               offset: const Offset(0, 20),
                               spreadRadius: -10,
@@ -461,7 +460,7 @@ class _LoginState extends ConsumerState<Login>
                               "Don't have an account? ",
                               style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(
-                                    color: Colors.black.withOpacity(0.6),
+                                    color: context.textPrimary.withOpacity(0.6),
                                     fontSize: 15,
                                   ),
                             ),
@@ -509,7 +508,7 @@ class _LoginState extends ConsumerState<Login>
                         children: [
                           Expanded(
                             child: Divider(
-                              color: Colors.black.withOpacity(0.1),
+                              color: context.textPrimary.withOpacity(0.1),
                               thickness: 1,
                             ),
                           ),
@@ -518,7 +517,7 @@ class _LoginState extends ConsumerState<Login>
                             child: Text(
                               'or',
                               style: TextStyle(
-                                color: Colors.black.withOpacity(0.5),
+                                color: context.textPrimary.withOpacity(0.5),
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
                               ),
@@ -526,7 +525,7 @@ class _LoginState extends ConsumerState<Login>
                           ),
                           Expanded(
                             child: Divider(
-                              color: Colors.black.withOpacity(0.1),
+                              color: context.textPrimary.withOpacity(0.1),
                               thickness: 1,
                             ),
                           ),
@@ -620,11 +619,11 @@ class _LoginState extends ConsumerState<Login>
         labelText: label,
         hintText: hint,
         hintStyle: TextStyle(
-          color: Colors.black.withOpacity(0.35),
+          color: context.textPrimary.withOpacity(0.35),
           fontWeight: FontWeight.w400,
         ),
         labelStyle: TextStyle(
-          color: Colors.black.withOpacity(0.6),
+          color: context.textPrimary.withOpacity(0.6),
           fontWeight: FontWeight.w600,
         ),
         floatingLabelStyle: TextStyle(
@@ -646,14 +645,14 @@ class _LoginState extends ConsumerState<Login>
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
-            color: Colors.black.withOpacity(0.08),
+            color: context.textPrimary.withOpacity(0.08),
             width: 1.5,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
-            color: Colors.black.withOpacity(0.08),
+            color: context.textPrimary.withOpacity(0.08),
             width: 1.5,
           ),
         ),

@@ -149,15 +149,13 @@ class _EditPetScreenState extends ConsumerState<EditPetScreen> {
     final imageUrl = widget.pet.imageUrl;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
+            appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: AppColors.textPrimaryColor),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text('Edit Pet', style: Theme.of(context).textTheme.titleLarge),
-        backgroundColor: AppColors.backgroundColor,
-        elevation: 0,
+                elevation: 0,
         centerTitle: true,
       ),
       body: SafeArea(

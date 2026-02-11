@@ -232,8 +232,6 @@ ThemeData getLightTheme() {
       ),
     ),
 
-    // Dialog Theme
-
     // Snackbar Theme
     snackBarTheme: SnackBarThemeData(
       backgroundColor: AppColors.overlayColor,
@@ -485,8 +483,6 @@ ThemeData getDarkTheme() {
       ),
     ),
 
-    // Dialog Theme
-
     // Snackbar Theme
     snackBarTheme: SnackBarThemeData(
       backgroundColor: AppColors.overlayColorDark,
@@ -499,10 +495,4 @@ ThemeData getDarkTheme() {
       behavior: SnackBarBehavior.floating,
     ),
   );
-}
-
-/// Legacy function for backward compatibility - returns light theme
-@deprecated
-ThemeData getApplicationTheme() {
-  return getLightTheme();
 }

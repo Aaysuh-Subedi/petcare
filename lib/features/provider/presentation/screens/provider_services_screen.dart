@@ -7,8 +7,7 @@ class ProviderServicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
+            appBar: AppBar(
         title: const Text('Your Services'),
         backgroundColor: AppColors.iconPrimaryColor,
         centerTitle: true,

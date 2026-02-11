@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petcare/core/providers/session_providers.dart';
+
 import 'package:petcare/features/auth/presentation/pages/login.dart';
+import 'package:petcare/features/auth/presentation/view_model/session_notifier.dart';
 
 // Modern color palette for Provider Profile
 class ProviderProfileColors {
@@ -526,7 +527,7 @@ class _ProviderProfileScreenState extends ConsumerState<ProviderProfileScreen>
                       onPressed: () async {
                         Navigator.pop(ctx);
                         await ref
-                            .read(sessionStateProvider.notifier)
+                            .read(userSessionNotifierProvider.notifier)
                             .clearSession();
                         if (!mounted) return;
                         Navigator.pushAndRemoveUntil(

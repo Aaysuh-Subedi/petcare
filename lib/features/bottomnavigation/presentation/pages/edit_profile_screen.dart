@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petcare/app/theme/app_colors.dart';
 import 'package:petcare/core/api/api_endpoints.dart';
-import 'package:petcare/core/providers/session_providers.dart';
+import 'package:petcare/core/services/storage/user_session_service.dart';
 import 'package:petcare/features/auth/presentation/view_model/profile_view_model.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
@@ -31,9 +31,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    final session = ref.read(sessionStateProvider);
-    _firstNameController.text = session.firstName ?? '';
-    _emailController.text = session.email ?? '';
     Future.microtask(
       () => ref.read(profileViewModelProvider.notifier).loadProfile(),
     );
@@ -138,8 +135,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
+            appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: AppColors.textPrimaryColor),
           onPressed: () => Navigator.pop(context),
@@ -148,8 +144,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           'Edit Profile',
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        backgroundColor: AppColors.backgroundColor,
-        elevation: 0,
+                elevation: 0,
         centerTitle: true,
       ),
       body: SafeArea(

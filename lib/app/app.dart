@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petcare/app/theme/app_theme.dart';
+import 'package:petcare/app/theme/theme_provider.dart';
 import 'package:petcare/features/splash/presentation/pages/Splash_screen.dart';
-import 'package:petcare/app/theme/theme_data.dart';
-import 'package:petcare/core/providers/theme_provider.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});

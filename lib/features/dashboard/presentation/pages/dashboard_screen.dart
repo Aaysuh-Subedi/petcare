@@ -3,7 +3,8 @@ import 'package:petcare/features/bottomnavigation/presentation/pages/discover_sc
 import 'package:petcare/features/bottomnavigation/presentation/pages/explore_screen.dart';
 import 'package:petcare/features/bottomnavigation/presentation/pages/home_screen.dart';
 import 'package:petcare/features/bottomnavigation/presentation/pages/profile_screen.dart';
-import 'package:petcare/app/theme/app_colors.dart' as theme_colors;
+import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/app/theme/theme_extensions.dart';
 
 class Dashboard extends StatefulWidget {
   final String firstName;
@@ -46,14 +47,14 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: theme_colors.AppColors.backgroundColor,
+      backgroundColor: context.backgroundColor,
       body: IndexedStack(index: _selectedIndex, children: _screens),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: theme_colors.AppColors.surfaceColor,
+          color: context.surfaceColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.06),
+              color: context.textPrimary.withOpacity(0.06),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
@@ -86,7 +87,7 @@ class _DashboardState extends State<Dashboard> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected
-              ? theme_colors.AppColors.iconPrimaryColor.withOpacity(0.1)
+              ? context.primaryColor.withOpacity(0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -95,9 +96,7 @@ class _DashboardState extends State<Dashboard> {
           children: [
             Icon(
               isSelected ? item.activeIcon : item.icon,
-              color: isSelected
-                  ? theme_colors.AppColors.iconPrimaryColor
-                  : theme_colors.AppColors.iconSecondaryColor,
+              color: isSelected ? context.primaryColor : context.iconSecondaryColor,
               size: 24,
             ),
             if (isSelected) ...[
@@ -105,7 +104,7 @@ class _DashboardState extends State<Dashboard> {
               Text(
                 item.label,
                 style: TextStyle(
-                  color: theme_colors.AppColors.iconPrimaryColor,
+                  color: context.primaryColor,
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
                 ),

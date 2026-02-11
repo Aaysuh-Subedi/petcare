@@ -5,9 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare/core/api/api_client.dart';
 import 'package:petcare/core/api/api_endpoints.dart';
-import 'package:petcare/core/providers/session_providers.dart';
-import 'package:petcare/core/providers/token_service.dart';
-import 'package:petcare/core/services/session/session_service.dart';
+import 'package:petcare/core/services/storage/token_service.dart';
+import 'package:petcare/core/services/storage/user_session_service.dart';
 import 'package:petcare/features/auth/data/datasources/auth_datasource.dart';
 import 'package:petcare/features/auth/data/models/auth_api_model.dart';
 
@@ -15,19 +14,19 @@ import 'package:petcare/features/auth/data/models/auth_api_model.dart';
 final authRemoteDatasourceProvider = Provider<IAuthRemoteDataSource>((ref) {
   return AuthRemoteDatasource(
     apiClient: ref.read(apiClientProvider),
-    sessionService: ref.read(sessionServiceProvider),
+    sessionService: ref.read(userSessionServiceProvider),
     tokenService: ref.read(tokenServiceProvider),
   );
 });
 
 class AuthRemoteDatasource implements IAuthRemoteDataSource {
   final ApiClient _apiClient;
-  final SessionService _sessionService;
+  final UserSessionService _sessionService;
   final TokenService _tokenService;
 
   AuthRemoteDatasource({
     required ApiClient apiClient,
-    required SessionService sessionService,
+    required UserSessionService sessionService,
     required TokenService tokenService,
   }) : _apiClient = apiClient,
        _sessionService = sessionService,
@@ -96,7 +95,7 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
           userId: user.id!,
           firstName: safeFirstName,
           email: user.email,
-          token: token,
+          lastName: '',
         );
         return user;
       } else {
@@ -193,7 +192,7 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
         userId: userId,
         email: updatedUser.email,
         firstName: safeFirstName,
-        token: token, // Keep the token
+        lastName: '',
       );
 
       return avatar;
@@ -264,7 +263,7 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
             userId: updatedUser.id!,
             email: updatedUser.email,
             firstName: safeFirstName,
-            token: token, // Keep the token
+            lastName: '',
           );
         }
 

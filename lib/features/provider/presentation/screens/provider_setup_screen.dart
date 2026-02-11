@@ -93,8 +93,7 @@ class _ProviderSetupScreenState extends ConsumerState<ProviderSetupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      body: SafeArea(
+            body: SafeArea(
         child: Stack(
           children: [
             Positioned(

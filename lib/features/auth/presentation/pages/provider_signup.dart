@@ -171,8 +171,7 @@ class _ProviderSignupScreenState extends ConsumerState<ProviderSignupScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      body: SafeArea(
+            body: SafeArea(
         child: Stack(
           children: [
             Positioned(

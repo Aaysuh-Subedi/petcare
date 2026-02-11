@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/app/theme/theme_extensions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare/features/auth/di/auth_providers.dart';
 import 'package:petcare/features/auth/domain/usecases/register_usecase.dart';
@@ -94,7 +95,7 @@ class _SignupState extends ConsumerState<Signup>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: context.backgroundColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -106,9 +107,9 @@ class _SignupState extends ConsumerState<Signup>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      AppColors.accentColor.withOpacity(0.08),
-                      AppColors.backgroundColor,
-                      AppColors.accentColor.withOpacity(0.05),
+                      context.accentColor.withOpacity(0.08),
+                      context.backgroundColor,
+                      context.accentColor.withOpacity(0.05),
                     ],
                   ),
                 ),

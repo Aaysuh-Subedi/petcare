@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:petcare/app/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare/core/api/api_endpoints.dart';
-import 'package:petcare/core/providers/session_providers.dart';
-import 'package:petcare/core/providers/theme_provider.dart';
+import 'package:petcare/core/services/storage/user_session_service.dart';
 import 'package:petcare/features/auth/presentation/pages/login.dart';
 import 'package:petcare/features/auth/presentation/view_model/profile_view_model.dart';
+import 'package:petcare/features/auth/presentation/view_model/session_notifier.dart';
+import 'package:petcare/app/theme/theme_provider.dart';
 import 'package:petcare/features/bottomnavigation/presentation/pages/edit_profile_screen.dart';
 import 'package:petcare/features/pet/presentation/pages/my_pet.dart';
 
@@ -134,17 +136,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(sessionStateProvider);
+    final session = ref.watch(userSessionServiceProvider);
     final profileState = ref.watch(profileViewModelProvider);
     final themeMode = ref.watch(themeModeProvider);
 
     final avatar = profileState.user?.avatar;
-    final displayName = session.firstName ?? 'User';
-    final displayEmail = session.email ?? '';
+    final displayName = session.getFirstName() ?? 'User';
+    final displayEmail = session.getEmail() ?? '';
 
     return Scaffold(
-      backgroundColor: ProfileColors.background(context),
-      body: SafeArea(
+            body: SafeArea(
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
@@ -158,8 +159,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [
-                          ProfileColors.primary,
-                          ProfileColors.primaryDark,
+                          AppColors.primaryColor,
+                          AppColors.primaryColor,
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -170,7 +171,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: ProfileColors.primary.withOpacity(0.4),
+                          color: AppColors.primaryColor.withOpacity(0.4),
                           blurRadius: 30,
                           offset: const Offset(0, 15),
                           spreadRadius: -10,
@@ -342,9 +343,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               await ref
                                   .read(profileViewModelProvider.notifier)
                                   .loadProfile();
-                              await ref
-                                  .read(sessionStateProvider.notifier)
-                                  .load();
                             }
                           },
                         ),
@@ -387,7 +385,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         ),
                         onTap: () {
                           HapticFeedback.lightImpact();
-                          ref.read(themeModeProvider.notifier).toggleTheme();
+                          ref.toggleTheme();
                         },
                       ),
                     ], delay: 100),
@@ -412,7 +410,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           icon: Icons.chat_bubble_rounded,
                           title: 'Contact Us',
                           subtitle: 'Get in touch with our team',
-                          color: ProfileColors.primary,
+                          color: AppColors.primaryColor,
                           onTap: () {
                             HapticFeedback.lightImpact();
                           },
@@ -537,7 +535,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
-                      color: ProfileColors.textPrimary(context),
+                      color: AppColors.textPrimaryColor,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -546,7 +544,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: ProfileColors.textSecondary(context),
+                      color: AppColors.textSecondaryColor,
                     ),
                   ),
                 ],
@@ -583,13 +581,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: ProfileColors.primary.withOpacity(0.1),
+                        color: AppColors.primaryColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
                         sectionIcon,
                         size: 16,
-                        color: ProfileColors.primary,
+                        color: AppColors.primaryColor,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -598,7 +596,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
-                        color: ProfileColors.textSecondary(context),
+                        color: AppColors.textSecondaryColor,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -681,7 +679,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: ProfileColors.textPrimary(context),
+                        color: AppColors.textPrimaryColor,
                       ),
                     ),
                     if (item.subtitle != null) const SizedBox(height: 3),
@@ -691,7 +689,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: ProfileColors.textSecondary(context),
+                          color: AppColors.textSecondaryColor,
                         ),
                       ),
                   ],
@@ -723,7 +721,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       width: 48,
       height: 26,
       decoration: BoxDecoration(
-        color: isActive ? ProfileColors.primary : Colors.grey.shade300,
+        color: isActive ? AppColors.primaryColor : Colors.grey.shade300,
         borderRadius: BorderRadius.circular(13),
       ),
       child: AnimatedAlign(
@@ -852,7 +850,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
-                  color: ProfileColors.textPrimary(context),
+                  color: AppColors.textPrimaryColor,
                 ),
               ),
               const SizedBox(height: 10),
@@ -861,7 +859,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
-                  color: ProfileColors.textSecondary(context),
+                  color: AppColors.textSecondaryColor,
                   height: 1.5,
                 ),
               ),
@@ -882,7 +880,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: ProfileColors.textSecondary(context),
+                          color: AppColors.textSecondaryColor,
                         ),
                       ),
                     ),
@@ -893,7 +891,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       onPressed: () async {
                         Navigator.pop(ctx);
                         await ref
-                            .read(sessionStateProvider.notifier)
+                            .read(userSessionNotifierProvider.notifier)
                             .clearSession();
                         if (!context.mounted) return;
                         Navigator.pushAndRemoveUntil(

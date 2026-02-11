@@ -86,15 +86,13 @@ class _MyPetState extends ConsumerState<MyPet> {
     final petState = ref.watch(petNotifierProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
+            appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: AppColors.textPrimaryColor),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text('My Pets', style: Theme.of(context).textTheme.titleLarge),
-        backgroundColor: AppColors.backgroundColor,
-        elevation: 0,
+                elevation: 0,
         centerTitle: true,
       ),
       body: RefreshIndicator(
