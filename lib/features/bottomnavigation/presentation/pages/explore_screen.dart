@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/app/theme/theme_extensions.dart';
 import 'package:petcare/features/bookings/presentation/pages/book_appointment_page.dart';
 
 class ExploreScreen extends StatelessWidget {
@@ -34,18 +35,18 @@ class ExploreScreen extends StatelessWidget {
                     vertical: 12,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceColor,
+                    color: context.surfaceColor,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: Colors.grey.shade200),
+                    border: Border.all(color: context.borderColor),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.search, color: Colors.grey.shade500),
+                      Icon(Icons.search, color: context.textSecondary),
                       const SizedBox(width: 12),
                       Text(
                         'Search services, vets, shops...',
                         style: TextStyle(
-                          color: Colors.grey.shade500,
+                          color: context.textSecondary,
                           fontSize: 15,
                         ),
                       ),
@@ -157,16 +158,16 @@ class ExploreScreen extends StatelessWidget {
                         vertical: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceColor,
+                        color: context.surfaceColor,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey.shade300),
+                        border: Border.all(color: context.borderColor),
                       ),
                       child: Row(
                         children: [
                           Icon(
                             Icons.local_hospital,
                             size: 18,
-                            color: Colors.grey.shade600,
+                            color: context.textSecondary,
                           ),
                           const SizedBox(width: 8),
                           Text(
@@ -174,7 +175,7 @@ class ExploreScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: Colors.grey.shade700,
+                              color: context.textSecondary,
                             ),
                           ),
                         ],
@@ -187,16 +188,16 @@ class ExploreScreen extends StatelessWidget {
                         vertical: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceColor,
+                        color: context.surfaceColor,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey.shade300),
+                        border: Border.all(color: context.borderColor),
                       ),
                       child: Row(
                         children: [
                           Icon(
                             Icons.content_cut,
                             size: 18,
-                            color: Colors.grey.shade600,
+                            color: context.textSecondary,
                           ),
                           const SizedBox(width: 8),
                           Text(
@@ -204,7 +205,7 @@ class ExploreScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: Colors.grey.shade700,
+                              color: context.textSecondary,
                             ),
                           ),
                         ],
@@ -216,16 +217,16 @@ class ExploreScreen extends StatelessWidget {
                         vertical: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceColor,
+                        color: context.surfaceColor,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey.shade300),
+                        border: Border.all(color: context.borderColor),
                       ),
                       child: Row(
                         children: [
                           Icon(
                             Icons.store,
                             size: 18,
-                            color: Colors.grey.shade600,
+                            color: context.textSecondary,
                           ),
                           const SizedBox(width: 8),
                           Text(
@@ -233,7 +234,7 @@ class ExploreScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: Colors.grey.shade700,
+                              color: context.textSecondary,
                             ),
                           ),
                         ],
@@ -441,9 +442,9 @@ class ExploreScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceColor,
+                        color: context.surfaceColor,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: Colors.grey.shade200),
+                        border: Border.all(color: context.borderColor),
                       ),
                       child: Row(
                         children: [
@@ -475,7 +476,7 @@ class ExploreScreen extends StatelessWidget {
                                 Text(
                                   'Veterinary • 0.5 km',
                                   style: TextStyle(
-                                    color: Colors.grey.shade600,
+                                    color: context.textSecondary,
                                     fontSize: 13,
                                   ),
                                 ),
@@ -502,9 +503,9 @@ class ExploreScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceColor,
+                        color: context.surfaceColor,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: Colors.grey.shade200),
+                        border: Border.all(color: context.borderColor),
                       ),
                       child: Row(
                         children: [
@@ -536,7 +537,7 @@ class ExploreScreen extends StatelessWidget {
                                 Text(
                                   'Grooming • 1.2 km',
                                   style: TextStyle(
-                                    color: Colors.grey.shade600,
+                                    color: context.textSecondary,
                                     fontSize: 13,
                                   ),
                                 ),
@@ -563,9 +564,9 @@ class ExploreScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceColor,
+                        color: context.surfaceColor,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: Colors.grey.shade200),
+                        border: Border.all(color: context.borderColor),
                       ),
                       child: Row(
                         children: [
@@ -597,7 +598,7 @@ class ExploreScreen extends StatelessWidget {
                                 Text(
                                   'Pet Shop • 0.8 km',
                                   style: TextStyle(
-                                    color: Colors.grey.shade600,
+                                    color: context.textSecondary,
                                     fontSize: 13,
                                   ),
                                 ),

@@ -154,7 +154,7 @@ class _MyPetState extends ConsumerState<MyPet> {
         Icon(
           Icons.pets,
           size: 120,
-          color: AppColors.iconSecondaryColor.withOpacity(0.3),
+          color: context.textSecondary.withOpacity(0.3),
         ),
         SizedBox(height: 24),
         Text(
@@ -211,11 +211,12 @@ class _PetCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: context.textPrimary,
+          color: context.surfaceColor,
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: context.borderColor),
           boxShadow: [
             BoxShadow(
-              color: context.textPrimary.withOpacity(0.04),
+              color: Colors.black.withOpacity(context.isDark ? 0.25 : 0.06),
               blurRadius: 12,
               offset: Offset(0, 4),
             ),
@@ -322,7 +323,7 @@ class _PetCard extends StatelessWidget {
                         Icon(
                           Icons.cake_outlined,
                           size: 14,
-                          color: AppColors.iconSecondaryColor,
+                          color: context.textSecondary,
                         ),
                         SizedBox(width: 4),
                         Text(
@@ -339,7 +340,7 @@ class _PetCard extends StatelessWidget {
                           width: 4,
                           height: 4,
                           decoration: BoxDecoration(
-                            color: AppColors.borderColor,
+                            color: context.borderColor,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -349,7 +350,7 @@ class _PetCard extends StatelessWidget {
                         Icon(
                           Icons.monitor_weight_outlined,
                           size: 14,
-                          color: AppColors.iconSecondaryColor,
+                          color: context.textSecondary,
                         ),
                         SizedBox(width: 4),
                         Text(

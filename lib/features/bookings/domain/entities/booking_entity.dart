@@ -11,6 +11,7 @@ class BookingEntity extends Equatable {
   final String? userId;
   final String? petId;
   final String? providerId;
+  final String? providerServiceId;
   final String? createdAt;
   final String? updatedAt;
 
@@ -25,6 +26,7 @@ class BookingEntity extends Equatable {
     this.userId,
     this.petId,
     this.providerId,
+    this.providerServiceId,
     this.createdAt,
     this.updatedAt,
   });
@@ -41,6 +43,7 @@ class BookingEntity extends Equatable {
     userId,
     petId,
     providerId,
+    providerServiceId,
     createdAt,
     updatedAt,
   ];
@@ -56,6 +59,7 @@ class BookingEntity extends Equatable {
     String? userId,
     String? petId,
     String? providerId,
+    String? providerServiceId,
     String? createdAt,
     String? updatedAt,
   }) {
@@ -70,6 +74,7 @@ class BookingEntity extends Equatable {
       userId: userId ?? this.userId,
       petId: petId ?? this.petId,
       providerId: providerId ?? this.providerId,
+      providerServiceId: providerServiceId ?? this.providerServiceId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

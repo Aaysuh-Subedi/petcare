@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/app/theme/theme_extensions.dart';
 import 'package:petcare/core/services/storage/user_session_service.dart';
 import 'package:petcare/features/pet/presentation/provider/pet_providers.dart';
 import 'package:petcare/features/bookings/domain/entities/booking_entity.dart';
@@ -202,8 +203,8 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Book Appointment'),
-        backgroundColor: AppColors.iconPrimaryColor,
-        foregroundColor: Colors.white,
+        backgroundColor: context.surfaceColor,
+        foregroundColor: context.textPrimary,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -238,6 +239,8 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                       hintText: petState.pets.isEmpty
                           ? 'No pets found'
                           : 'Choose a pet',
+                      filled: true,
+                      fillColor: context.surfaceColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -286,6 +289,8 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                       hintText: services.isEmpty
                           ? 'No services available'
                           : 'Choose a service',
+                      filled: true,
+                      fillColor: context.surfaceColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -321,6 +326,8 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                       hintText: filteredProviders.isEmpty
                           ? 'No providers available'
                           : 'Choose a provider',
+                      filled: true,
+                      fillColor: context.surfaceColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -344,7 +351,8 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade300),
+                  color: context.surfaceColor,
+                  border: Border.all(color: context.borderColor),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -354,7 +362,13 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                       color: AppColors.iconPrimaryColor,
                     ),
                     const SizedBox(width: 12),
-                    Text(dateStr, style: const TextStyle(fontSize: 16)),
+                    Text(
+                      dateStr,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: context.textPrimary,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -377,7 +391,8 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade300),
+                  color: context.surfaceColor,
+                  border: Border.all(color: context.borderColor),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -387,7 +402,13 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                       color: AppColors.iconPrimaryColor,
                     ),
                     const SizedBox(width: 12),
-                    Text(timeStr, style: const TextStyle(fontSize: 16)),
+                    Text(
+                      timeStr,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: context.textPrimary,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -411,6 +432,12 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                   label: Text('$min min'),
                   selected: isSelected,
                   selectedColor: AppColors.iconPrimaryColor.withOpacity(0.2),
+                  labelStyle: TextStyle(
+                    color: isSelected
+                        ? context.textPrimary
+                        : context.textSecondary,
+                  ),
+                  backgroundColor: context.surfaceColor,
                   onSelected: (_) => setState(() {
                     _durationMinutes = min;
                     _durationManuallySet = true;
@@ -432,8 +459,12 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
             TextField(
               controller: _notesController,
               maxLines: 3,
+              style: TextStyle(color: context.textPrimary),
               decoration: InputDecoration(
                 hintText: 'Any special instructions...',
+                hintStyle: TextStyle(color: context.hintColor),
+                filled: true,
+                fillColor: context.surfaceColor,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -452,11 +483,12 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Estimated Price',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
+                        color: context.textPrimary,
                       ),
                     ),
                     Text(

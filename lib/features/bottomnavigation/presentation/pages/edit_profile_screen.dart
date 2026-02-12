@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/app/theme/theme_extensions.dart';
 import 'package:petcare/core/api/api_endpoints.dart';
 import 'package:petcare/core/services/storage/user_session_service.dart';
 import 'package:petcare/features/auth/presentation/view_model/profile_view_model.dart';
@@ -137,7 +138,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.textPrimaryColor),
+          icon: Icon(Icons.arrow_back, color: context.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -169,13 +170,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: AppColors.borderColor.withOpacity(0.3),
+                                color: context.borderColor.withOpacity(0.3),
                                 width: 3,
                               ),
                             ),
                             child: CircleAvatar(
                               radius: 48,
-                              backgroundColor: AppColors.surfaceColor,
+                              backgroundColor: context.surfaceColor,
                               backgroundImage: _localImage != null
                                   ? FileImage(_localImage!)
                                   : (_existingImageUrl != null &&
@@ -193,7 +194,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                   ? Icon(
                                       Icons.person,
                                       size: 40,
-                                      color: AppColors.iconSecondaryColor,
+                                      color: context.textSecondary,
                                     )
                                   : null,
                             ),
@@ -207,7 +208,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 color: AppColors.primaryColor,
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: AppColors.backgroundColor,
+                                  color: context.backgroundColor,
                                   width: 2,
                                 ),
                               ),
@@ -301,8 +302,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    disabledBackgroundColor: AppColors.disabledColor
-                        .withOpacity(0.5),
+                    disabledBackgroundColor: Theme.of(context).disabledColor,
                   ),
                   child: profileState.isLoading
                       ? SizedBox(
@@ -338,7 +338,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       style: TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,
-        color: AppColors.textSecondaryColor,
+        color: context.textSecondary,
       ),
     );
   }
@@ -353,19 +353,19 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       controller: controller,
       keyboardType: keyboardType,
       validator: validator,
-      style: TextStyle(fontSize: 15, color: AppColors.textPrimaryColor),
+      style: TextStyle(fontSize: 15, color: context.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(fontSize: 15, color: AppColors.textHintColor),
+        hintStyle: TextStyle(fontSize: 15, color: context.hintColor),
         filled: true,
-        fillColor: AppColors.surfaceColor,
+        fillColor: context.surfaceColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: AppColors.borderColor),
+          borderSide: BorderSide(color: context.borderColor),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: AppColors.borderColor),
+          borderSide: BorderSide(color: context.borderColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),

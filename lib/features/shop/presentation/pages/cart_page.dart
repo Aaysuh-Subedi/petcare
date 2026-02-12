@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/app/theme/theme_extensions.dart';
 import 'package:petcare/features/shop/domain/entities/cart_entity.dart';
 import 'package:petcare/features/shop/presentation/view_model/shop_view_model.dart';
 
@@ -15,8 +16,8 @@ class CartPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Cart'),
-        backgroundColor: AppColors.iconPrimaryColor,
-        foregroundColor: Colors.white,
+        backgroundColor: context.surfaceColor,
+        foregroundColor: context.textPrimary,
         centerTitle: true,
         actions: [
           if (cart.items.isNotEmpty)
@@ -27,19 +28,22 @@ class CartPage extends ConsumerWidget {
         ],
       ),
       body: cart.items.isEmpty
-          ? const Center(
+          ? Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     Icons.shopping_cart_outlined,
                     size: 64,
-                    color: Colors.grey,
+                    color: context.textSecondary,
                   ),
                   SizedBox(height: 12),
                   Text(
                     'Your cart is empty',
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: context.textSecondary,
+                    ),
                   ),
                 ],
               ),
@@ -47,7 +51,7 @@ class CartPage extends ConsumerWidget {
           : ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: cart.items.length,
-              separatorBuilder: (_, _a) => const Divider(),
+              separatorBuilder: (_, _a) => Divider(color: context.borderColor),
               itemBuilder: (context, index) {
                 return _CartItemTile(item: cart.items[index]);
               },
@@ -57,10 +61,12 @@ class CartPage extends ConsumerWidget {
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: context.surfaceColor,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withOpacity(
+                        context.isDark ? 0.2 : 0.05,
+                      ),
                       blurRadius: 10,
                       offset: const Offset(0, -2),
                     ),
@@ -72,11 +78,12 @@ class CartPage extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Total',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
+                            color: context.textPrimary,
                           ),
                         ),
                         Text(
@@ -182,9 +189,10 @@ class _CartItemTile extends ConsumerWidget {
                   item.product.productName,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
+                    color: context.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -223,9 +231,10 @@ class _CartItemTile extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text(
                   '${item.quantity}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
+                    color: context.textPrimary,
                   ),
                 ),
               ),
@@ -262,10 +271,10 @@ class _QuantityButton extends StatelessWidget {
         width: 32,
         height: 32,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: context.borderColor),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(icon, size: 18),
+        child: Icon(icon, size: 18, color: context.textPrimary),
       ),
     );
   }

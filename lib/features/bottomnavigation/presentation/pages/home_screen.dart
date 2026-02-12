@@ -402,10 +402,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Vaccination Reminders',
                       style: TextStyle(
-                        color: AppColors.textPrimaryColor,
+                        color: context.textPrimary,
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
                         letterSpacing: -0.5,
@@ -415,7 +415,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     Text(
                       'Upcoming health checks',
                       style: TextStyle(
-                        color: AppColors.textSecondaryColor,
+                        color: context.textSecondary,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
@@ -442,13 +442,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         width: double.infinity,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: context.surfaceColor,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.grey.shade200),
+                          border: Border.all(color: context.borderColor),
                         ),
-                        child: const Text(
+                        child: Text(
                           'No upcoming vaccinations. You are all set!',
-                          style: TextStyle(color: AppColors.textSecondaryColor),
+                          style: TextStyle(color: context.textSecondary),
                         ),
                       )
                     else
@@ -471,9 +471,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                             margin: const EdgeInsets.only(bottom: 12),
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: context.surfaceColor,
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: Colors.grey.shade200),
+                              border: Border.all(color: context.borderColor),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withOpacity(0.04),
@@ -513,7 +513,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                                       Text(
                                         '$petName • $dueStr',
                                         style: TextStyle(
-                                          color: Colors.grey.shade600,
+                                          color: context.textSecondary,
                                           fontSize: 12,
                                         ),
                                       ),
@@ -616,10 +616,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                             vertical: 10,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: context.surfaceColor,
                             borderRadius: BorderRadius.circular(14),
                             border: Border.all(
-                              color: Colors.grey.shade200,
+                              color: context.borderColor,
                               width: 1.5,
                             ),
                             boxShadow: [
@@ -773,13 +773,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Recent Activity',
                           style: TextStyle(
-                            color: AppColors.textPrimaryColor,
+                            color: context.textPrimary,
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
                             letterSpacing: -0.5,
@@ -789,7 +789,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         Text(
                           'Your latest updates',
                           style: TextStyle(
-                            color: AppColors.textSecondaryColor,
+                            color: context.textSecondary,
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
@@ -809,9 +809,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 margin: const EdgeInsets.symmetric(horizontal: 24),
                 padding: const EdgeInsets.all(32),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: context.surfaceColor,
                   borderRadius: BorderRadius.circular(28),
-                  border: Border.all(color: Colors.grey.shade100, width: 2),
+                  border: Border.all(color: context.borderColor, width: 2),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.03),
@@ -843,10 +843,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Text(
+                    Text(
                       'No pets added yet',
                       style: TextStyle(
-                        color: AppColors.textPrimaryColor,
+                        color: context.textPrimary,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
@@ -856,7 +856,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       'Add your first pet to start tracking\ntheir health and activities.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: AppColors.textSecondaryColor,
+                        color: context.textSecondary,
                         fontSize: 14,
                         height: 1.5,
                         fontWeight: FontWeight.w500,
@@ -881,9 +881,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       width: 56,
       height: 56,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.surfaceColor,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.grey.shade200, width: 1.5),
+        border: Border.all(color: context.borderColor, width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -897,7 +897,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         children: [
           Icon(
             Icons.notifications_outlined,
-            color: AppColors.textPrimaryColor,
+            color: context.textPrimary,
             size: 24,
           ),
           Positioned(
@@ -909,7 +909,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               decoration: BoxDecoration(
                 color: _kAccentColor,
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
+                border: Border.all(color: context.surfaceColor, width: 2),
                 boxShadow: [
                   BoxShadow(
                     color: _kAccentColor.withOpacity(0.4),
@@ -928,7 +928,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget _buildAddPetButton() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.surfaceColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -1095,8 +1095,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     const SizedBox(height: 14),
                     Text(
                       value,
-                      style: const TextStyle(
-                        color: AppColors.textPrimaryColor,
+                      style: TextStyle(
+                        color: context.textPrimary,
                         fontSize: 24,
                         fontWeight: FontWeight.w800,
                       ),
@@ -1105,7 +1105,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     Text(
                       label,
                       style: TextStyle(
-                        color: AppColors.textSecondaryColor,
+                        color: context.textSecondary,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
@@ -1189,10 +1189,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         const SizedBox(height: 16),
                         Text(
                           label,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.textPrimaryColor,
+                            color: context.textPrimary,
                             letterSpacing: -0.3,
                           ),
                         ),
@@ -1202,7 +1202,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textSecondaryColor,
+                            color: context.textSecondary,
                           ),
                         ),
                       ],

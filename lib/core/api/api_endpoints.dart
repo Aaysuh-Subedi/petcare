@@ -50,12 +50,18 @@ class ApiEndpoints {
   static const String providerUpdate = 'api/provider';
   static const String providerDelete = 'api/provider';
 
+  // ------------------ PROVIDER SERVICE --------------------
+  static const String providerServiceApply =
+      'api/provider/provider-service/apply';
+  static const String providerServiceMy = 'api/provider/provider-service/my';
+  static const String providerServiceById = 'api/provider/provider-service';
+
   // ------------------------ PET ----------------------------
-  static const String petGetAll = 'api/pet';
-  static const String petById = 'api/pet';
-  static const String petCreate = 'api/pet';
-  static const String petUpdate = 'api/pet';
-  static const String petDelete = 'api/pet';
+  static const String petGetAll = 'api/user/pet';
+  static const String petById = 'api/user/pet';
+  static const String petCreate = 'api/user/pet';
+  static const String petUpdate = 'api/user/pet';
+  static const String petDelete = 'api/user/pet';
 
   // ----------------------- BOOKING -------------------------
   static const String bookingCreate = 'api/booking';

@@ -11,6 +11,8 @@ import 'package:petcare/features/auth/presentation/view_model/session_notifier.d
 import 'package:petcare/app/theme/theme_provider.dart';
 import 'package:petcare/features/bottomnavigation/presentation/pages/edit_profile_screen.dart';
 import 'package:petcare/features/pet/presentation/pages/my_pet.dart';
+import 'package:petcare/features/provider_service/presentation/pages/apply_provider_service.dart';
+import 'package:petcare/features/provider_service/presentation/pages/my_provider_services.dart';
 
 // Modern color palette - Theme Aware
 class ProfileColors {
@@ -361,6 +363,38 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             );
                           },
                         ),
+                        _MenuItem(
+                          icon: Icons.storefront_rounded,
+                          title: 'My Services',
+                          subtitle: 'View your provider service applications',
+                          color: ProfileColors.myPets,
+                          onTap: () {
+                            HapticFeedback.lightImpact();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    const MyProviderServicesScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        _MenuItem(
+                          icon: Icons.work_outline_rounded,
+                          title: 'Apply as Provider',
+                          subtitle: 'Submit documents to offer services',
+                          color: ProfileColors.editProfile,
+                          onTap: () {
+                            HapticFeedback.lightImpact();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    const ApplyProviderServiceScreen(),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                       delay: 0,
                     ),
@@ -387,11 +421,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         ),
                         onTap: () {
                           HapticFeedback.lightImpact();
-                          ref
-                              .read(themeModeProvider.notifier)
-                              .state = themeMode == ThemeMode.dark
-                              ? ThemeMode.light
-                              : ThemeMode.dark;
+                          if (themeMode == ThemeMode.dark) {
+                            ref.read(themeModeProvider.notifier).setLight();
+                          } else {
+                            ref.read(themeModeProvider.notifier).setDark();
+                          }
                         },
                       ),
                     ], delay: 100),
@@ -541,7 +575,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimaryColor,
+                      color: ProfileColors.textPrimary(context),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -550,7 +584,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textSecondaryColor,
+                      color: ProfileColors.textSecondary(context),
                     ),
                   ),
                 ],
@@ -602,7 +636,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.textSecondaryColor,
+                        color: ProfileColors.textSecondary(context),
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -612,7 +646,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 // Menu Items Container
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: ProfileColors.surface(context),
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
@@ -685,7 +719,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimaryColor,
+                        color: ProfileColors.textPrimary(context),
                       ),
                     ),
                     if (item.subtitle != null) const SizedBox(height: 3),
@@ -695,7 +729,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.textSecondaryColor,
+                          color: ProfileColors.textSecondary(context),
                         ),
                       ),
                   ],
@@ -706,12 +740,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     width: 28,
                     height: 28,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
+                      color: ProfileColors.surface(context),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
                       Icons.arrow_forward_ios_rounded,
-                      color: Colors.grey.shade400,
+                      color: ProfileColors.textSecondary(context),
                       size: 14,
                     ),
                   ),
@@ -727,8 +761,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       width: 48,
       height: 26,
       decoration: BoxDecoration(
-        color: isActive ? AppColors.primaryColor : Colors.grey.shade300,
+        color: isActive
+            ? AppColors.primaryColor
+            : ProfileColors.surface(context),
         borderRadius: BorderRadius.circular(13),
+        border: isActive
+            ? null
+            : Border.all(
+                color: ProfileColors.textSecondary(context).withOpacity(0.2),
+              ),
       ),
       child: AnimatedAlign(
         duration: const Duration(milliseconds: 200),
@@ -738,7 +779,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           height: 22,
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: ProfileColors.surface(context),
             borderRadius: BorderRadius.circular(11),
             boxShadow: [
               BoxShadow(
@@ -856,7 +897,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimaryColor,
+                  color: ProfileColors.textPrimary(context),
                 ),
               ),
               const SizedBox(height: 10),
@@ -865,7 +906,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
-                  color: AppColors.textSecondaryColor,
+                  color: ProfileColors.textSecondary(context),
                   height: 1.5,
                 ),
               ),
@@ -886,7 +927,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.textSecondaryColor,
+                          color: ProfileColors.textSecondary(context),
                         ),
                       ),
                     ),

@@ -11,6 +11,7 @@ class BookingModel {
   final String? userId;
   final String? petId;
   final String? providerId;
+  final String? providerServiceId;
   final String? createdAt;
   final String? updatedAt;
 
@@ -25,6 +26,7 @@ class BookingModel {
     this.userId,
     this.petId,
     this.providerId,
+    this.providerServiceId,
     this.createdAt,
     this.updatedAt,
   });
@@ -42,6 +44,7 @@ class BookingModel {
       userId: json['userId']?.toString(),
       petId: json['petId']?.toString(),
       providerId: json['providerId']?.toString(),
+      providerServiceId: json['providerServiceId']?.toString(),
       createdAt: json['createdAt']?.toString(),
       updatedAt: json['updatedAt']?.toString(),
     );
@@ -56,6 +59,9 @@ class BookingModel {
     if (userId != null) json['userId'] = userId;
     if (petId != null) json['petId'] = petId;
     if (providerId != null) json['providerId'] = providerId;
+    if (providerServiceId != null) {
+      json['providerServiceId'] = providerServiceId;
+    }
     return json;
   }
 
@@ -72,6 +78,7 @@ class BookingModel {
       userId: userId,
       petId: petId,
       providerId: providerId,
+      providerServiceId: providerServiceId,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
@@ -90,6 +97,7 @@ class BookingModel {
       userId: entity.userId,
       petId: entity.petId,
       providerId: entity.providerId,
+      providerServiceId: entity.providerServiceId,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
     );
