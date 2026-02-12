@@ -129,6 +129,7 @@ class _LoginState extends ConsumerState<Login>
               userId: user.userId,
               firstName: user.FirstName,
               email: user.email,
+              role: 'user',
             );
 
         print('🧭 UI LOGIN: Navigating to dashboard');

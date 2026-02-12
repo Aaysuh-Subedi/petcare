@@ -58,6 +58,11 @@ class ApiEndpoints {
   static const String providerBookings = 'api/provider/booking/my';
   static const String providerBookingStatus = 'api/provider/booking';
 
+  // ----------------------- SERVICE -------------------------
+  static const String serviceList = 'api/service';
+  static const String serviceById = 'api/service';
+  static const String serviceByProvider = 'api/service/provider';
+
   // ---------------------- INVENTORY ------------------------
   static const String inventoryByProvider = 'api/provider/inventory';
   static const String inventoryCreate = 'api/provider/inventory';
@@ -71,4 +76,8 @@ class ApiEndpoints {
   static const String orderById = 'api/order';
   static const String orderUpdate = 'api/order';
   static const String orderDelete = 'api/order';
+
+  // -------------------- HEALTH RECORD ----------------------
+  static const String healthRecord = 'api/health-record';
+  static const String healthRecordByPet = 'api/health-record/pet';
 }

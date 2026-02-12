@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:petcare/app/theme/app_colors.dart';
 import 'package:petcare/app/theme/theme_extensions.dart';
+import 'package:petcare/features/pet/presentation/provider/pet_providers.dart';
+import 'package:petcare/features/health_records/presentation/view_model/vaccination_reminder_view_model.dart';
+import 'package:petcare/core/services/storage/user_session_service.dart';
+import 'package:petcare/features/bookings/presentation/pages/book_appointment_page.dart';
+import 'package:petcare/features/bookings/presentation/pages/booking_calendar_page.dart';
+import 'package:petcare/features/bookings/presentation/pages/booking_history_page.dart';
+import 'package:petcare/features/bookings/presentation/view_model/booking_view_model.dart';
 import 'package:petcare/features/pet/presentation/pages/add_pet.dart';
+import 'package:petcare/features/shop/presentation/pages/product_list_page.dart';
 
 // Service-specific colors (not theme-dependent)
 const _kVeterinaryColor = Color(0xFFFF6B6B);
@@ -11,16 +21,17 @@ const _kPetShopColor = Color(0xFF4DABF7);
 const _kBoardingColor = Color(0xFF51CF66);
 const _kAccentColor = Color(0xFFFF6584);
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   final String firstName;
 
   const HomeScreen({super.key, this.firstName = 'User'});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _HomeScreenState extends ConsumerState<HomeScreen>
+    with TickerProviderStateMixin {
   late AnimationController _headerController;
   late AnimationController _cardController;
   late AnimationController _servicesController;
@@ -85,6 +96,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       const Duration(milliseconds: 500),
       () => _servicesController.forward(),
     );
+
+    // Load user bookings for upcoming appointments widget
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userId = ref.read(userSessionServiceProvider).getUserId();
+      if (userId != null) {
+        ref.read(userBookingProvider.notifier).loadBookings(userId);
+      }
+      ref.read(petNotifierProvider.notifier).getAllPets();
+    });
   }
 
   @override
@@ -97,6 +117,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final petState = ref.watch(petNotifierProvider);
+    final reminderState = ref.watch(vaccinationReminderProvider);
+    final petIds = petState.pets
+        .map((pet) => pet.petId)
+        .where((id) => id != null && id!.isNotEmpty)
+        .map((id) => id!)
+        .toList();
+
+    final needsReminderLoad =
+        petIds.isNotEmpty &&
+        (reminderState.loadedPetIds.length != petIds.length ||
+            !reminderState.loadedPetIds.toSet().containsAll(petIds));
+
+    if (needsReminderLoad && !reminderState.isLoading) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        ref.read(vaccinationReminderProvider.notifier).loadReminders(petIds);
+      });
+    }
+
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -355,6 +395,143 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
             const SliverToBoxAdapter(child: SizedBox(height: 32)),
 
+            // Vaccination Reminders
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Vaccination Reminders',
+                      style: TextStyle(
+                        color: AppColors.textPrimaryColor,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Upcoming health checks',
+                      style: TextStyle(
+                        color: AppColors.textSecondaryColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    if (petState.isLoading || reminderState.isLoading)
+                      const LinearProgressIndicator(minHeight: 2)
+                    else if (reminderState.error != null)
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.red.shade50,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.red.shade100),
+                        ),
+                        child: Text(
+                          reminderState.error!,
+                          style: TextStyle(color: Colors.red.shade400),
+                        ),
+                      )
+                    else if (reminderState.reminders.isEmpty)
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey.shade200),
+                        ),
+                        child: const Text(
+                          'No upcoming vaccinations. You are all set!',
+                          style: TextStyle(color: AppColors.textSecondaryColor),
+                        ),
+                      )
+                    else
+                      Column(
+                        children: reminderState.reminders.take(3).map((record) {
+                          final petName = petState.pets
+                              .firstWhere(
+                                (pet) => pet.petId == record.petId,
+                                orElse: () => petState.pets.first,
+                              )
+                              .name;
+                          final dueDate = DateTime.tryParse(
+                            record.nextDueDate ?? '',
+                          );
+                          final dueStr = dueDate != null
+                              ? DateFormat('MMM d, yyyy').format(dueDate)
+                              : 'Due soon';
+
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: Colors.grey.shade200),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.04),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 6),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red.shade50,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Icon(
+                                    Icons.vaccines,
+                                    color: Colors.red.shade400,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        record.title ?? 'Vaccination',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        '$petName • $dueStr',
+                                        style: TextStyle(
+                                          color: Colors.grey.shade600,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SliverToBoxAdapter(child: SizedBox(height: 32)),
+
             // Stats Row
             SliverToBoxAdapter(
               child: Padding(
@@ -421,43 +598,57 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: Colors.grey.shade200,
-                          width: 1.5,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.03),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            'View All',
-                            style: TextStyle(
-                              color: AppColors.primaryColor,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 13,
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const BookAppointmentPage(),
                             ),
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(14),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 10,
                           ),
-                          const SizedBox(width: 6),
-                          Icon(
-                            Icons.arrow_forward_rounded,
-                            color: AppColors.primaryColor,
-                            size: 16,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: Colors.grey.shade200,
+                              width: 1.5,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.03),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
                           ),
-                        ],
+                          child: Row(
+                            children: [
+                              Text(
+                                'View All',
+                                style: TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Icon(
+                                Icons.arrow_forward_rounded,
+                                color: AppColors.primaryColor,
+                                size: 16,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -486,6 +677,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               const Color(0xFFFF8E8E),
                             ],
                             delay: 0,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const BookAppointmentPage(),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -500,6 +699,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               const Color(0xFFFFC078),
                             ],
                             delay: 100,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const BookAppointmentPage(),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -518,6 +725,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               const Color(0xFF74C0FC),
                             ],
                             delay: 200,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const BookAppointmentPage(),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -532,6 +747,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               const Color(0xFF69DB7C),
                             ],
                             delay: 300,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const BookAppointmentPage(),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -904,6 +1127,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     required Color color,
     required List<Color> gradientColors,
     required int delay,
+    VoidCallback? onTap,
   }) {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.0, end: 1.0),
@@ -933,6 +1157,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 child: InkWell(
                   onTap: () {
                     HapticFeedback.lightImpact();
+                    onTap?.call();
                   },
                   borderRadius: BorderRadius.circular(24),
                   child: Padding(

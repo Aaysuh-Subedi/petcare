@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:petcare/features/bottomnavigation/presentation/pages/discover_screen.dart';
 import 'package:petcare/features/bottomnavigation/presentation/pages/explore_screen.dart';
 import 'package:petcare/features/bottomnavigation/presentation/pages/home_screen.dart';
 import 'package:petcare/features/bottomnavigation/presentation/pages/profile_screen.dart';
+import 'package:petcare/features/shop/presentation/pages/product_list_page.dart';
 import 'package:petcare/app/theme/app_colors.dart';
-import 'package:petcare/app/theme/theme_extensions.dart';
 import 'package:petcare/app/theme/theme_extensions.dart';
 
 class Dashboard extends StatefulWidget {
@@ -20,7 +19,7 @@ class _DashboardState extends State<Dashboard> {
   List<Widget> get _screens => [
     HomeScreen(firstName: widget.firstName),
     const ExploreScreen(),
-    const DiscoverScreen(),
+    const ProductListPage(),
     const ProfileScreen(),
   ];
   final List<_NavItem> _navItems = const [
@@ -35,9 +34,9 @@ class _DashboardState extends State<Dashboard> {
       label: 'Explore',
     ),
     _NavItem(
-      icon: Icons.search_rounded,
-      activeIcon: Icons.search_rounded,
-      label: 'Discover',
+      icon: Icons.store_outlined,
+      activeIcon: Icons.store_rounded,
+      label: 'Shop',
     ),
     _NavItem(
       icon: Icons.person_outline_rounded,

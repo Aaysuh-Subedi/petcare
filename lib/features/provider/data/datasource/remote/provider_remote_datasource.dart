@@ -117,6 +117,7 @@ class ProviderRemoteDatasource implements IProviderRemoteDataSource {
           firstName: provider.businessName,
           email: email,
           lastName: '',
+          role: 'provider',
         );
         if (token is String && token.isNotEmpty) {
           await _tokenService.saveToken(token);

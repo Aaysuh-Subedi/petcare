@@ -10,12 +10,14 @@ class UserSessionNotifier extends StateNotifier<dynamic> {
     required String userId,
     required String firstName,
     required String email,
+    String? role,
   }) async {
     await _service.saveSession(
       userId: userId,
       firstName: firstName,
       email: email,
       lastName: '',
+      role: role,
     );
     state = null;
   }

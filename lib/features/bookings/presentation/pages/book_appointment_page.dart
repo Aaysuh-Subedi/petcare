@@ -3,8 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:petcare/app/theme/app_colors.dart';
 import 'package:petcare/core/services/storage/user_session_service.dart';
+import 'package:petcare/features/pet/presentation/provider/pet_providers.dart';
 import 'package:petcare/features/bookings/domain/entities/booking_entity.dart';
 import 'package:petcare/features/bookings/presentation/view_model/booking_view_model.dart';
+import 'package:petcare/features/provider/presentation/view_model/provider_view_model.dart';
+import 'package:petcare/features/services/domain/entities/service_entity.dart';
+import 'package:petcare/features/services/presentation/view_model/service_view_model.dart';
 
 class BookAppointmentPage extends ConsumerStatefulWidget {
   final String? providerId;
@@ -31,11 +35,29 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
   int _durationMinutes = 30;
   final _notesController = TextEditingController();
   bool _isSubmitting = false;
+  String? _selectedPetId;
+  String? _selectedProviderId;
+  String? _selectedServiceId;
+  ServiceEntity? _selectedService;
+  bool _durationManuallySet = false;
 
   @override
   void dispose() {
     _notesController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedPetId = widget.petId;
+    _selectedProviderId = widget.providerId;
+    _selectedServiceId = widget.serviceId;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(petNotifierProvider.notifier).getAllPets();
+      ref.read(providerListProvider.notifier).loadProviders();
+      ref.read(serviceProvider.notifier).loadServices();
+    });
   }
 
   Future<void> _pickDate() async {
@@ -57,6 +79,38 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
   }
 
   Future<void> _submitBooking() async {
+    if (_selectedPetId == null || _selectedPetId!.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a pet to continue.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    if (_selectedService == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a service to continue.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    final providerId =
+        _selectedProviderId ??
+        _selectedService?.providerId ??
+        widget.providerId;
+    if (providerId == null || providerId.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a provider to continue.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     setState(() => _isSubmitting = true);
 
     final session = ref.read(userSessionServiceProvider);
@@ -75,10 +129,10 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
       startTime: startDT.toIso8601String(),
       endTime: endDT.toIso8601String(),
       userId: userId,
-      petId: widget.petId,
-      providerId: widget.providerId,
-      serviceId: widget.serviceId,
-      price: widget.price,
+      petId: _selectedPetId,
+      providerId: providerId,
+      serviceId: _selectedService?.serviceId ?? widget.serviceId,
+      price: widget.price ?? _selectedService?.price,
       notes: _notesController.text.trim().isEmpty
           ? null
           : _notesController.text.trim(),
@@ -108,6 +162,42 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
   Widget build(BuildContext context) {
     final dateStr = DateFormat('EEE, MMM d, yyyy').format(_selectedDate);
     final timeStr = _selectedTime.format(context);
+    final petState = ref.watch(petNotifierProvider);
+    final providerState = ref.watch(providerListProvider);
+    final serviceState = ref.watch(serviceProvider);
+    final services = serviceState.services;
+    final providers = providerState.providers;
+
+    if (_selectedService == null && _selectedServiceId != null) {
+      final match = services
+          .where((s) => s.serviceId == _selectedServiceId)
+          .toList();
+      if (match.isNotEmpty) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          setState(() {
+            _selectedService = match.first;
+            if (!_durationManuallySet &&
+                _selectedService!.durationMinutes > 0) {
+              _durationMinutes = _selectedService!.durationMinutes;
+            }
+            if (_selectedProviderId == null || _selectedProviderId!.isEmpty) {
+              _selectedProviderId = _selectedService!.providerId;
+            }
+          });
+        });
+      }
+    }
+
+    final filteredProviders =
+        (_selectedService?.providerId != null &&
+            _selectedService!.providerId!.isNotEmpty)
+        ? providers
+              .where((p) => p.providerId == _selectedService!.providerId)
+              .toList()
+        : providers;
+
+    final displayPrice = widget.price ?? _selectedService?.price;
 
     return Scaffold(
       appBar: AppBar(
@@ -121,6 +211,124 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Pet selector
+            Text(
+              'Select Pet',
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            petState.isLoading
+                ? const LinearProgressIndicator(minHeight: 2)
+                : DropdownButtonFormField<String>(
+                    value: _selectedPetId,
+                    items: petState.pets
+                        .map(
+                          (pet) => DropdownMenuItem(
+                            value: pet.petId,
+                            child: Text('${pet.name} • ${pet.species}'),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() => _selectedPetId = value);
+                    },
+                    decoration: InputDecoration(
+                      hintText: petState.pets.isEmpty
+                          ? 'No pets found'
+                          : 'Choose a pet',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+
+            const SizedBox(height: 20),
+
+            // Service selector
+            Text(
+              'Select Service',
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            serviceState.isLoading
+                ? const LinearProgressIndicator(minHeight: 2)
+                : DropdownButtonFormField<ServiceEntity>(
+                    value: _selectedService,
+                    items: services
+                        .map(
+                          (service) => DropdownMenuItem(
+                            value: service,
+                            child: Text(
+                              '${service.title} • \$${service.price.toStringAsFixed(2)}',
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedService = value;
+                        _selectedServiceId = value?.serviceId;
+                        if (!_durationManuallySet &&
+                            (value?.durationMinutes ?? 0) > 0) {
+                          _durationMinutes = value!.durationMinutes;
+                        }
+                        if (value?.providerId != null &&
+                            value!.providerId!.isNotEmpty) {
+                          _selectedProviderId = value.providerId;
+                        }
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: services.isEmpty
+                          ? 'No services available'
+                          : 'Choose a service',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+
+            const SizedBox(height: 20),
+
+            // Provider selector
+            Text(
+              'Select Provider',
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            providerState.isLoading
+                ? const LinearProgressIndicator(minHeight: 2)
+                : DropdownButtonFormField<String>(
+                    value: _selectedProviderId,
+                    items: filteredProviders
+                        .map(
+                          (provider) => DropdownMenuItem(
+                            value: provider.providerId,
+                            child: Text(provider.businessName),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() => _selectedProviderId = value);
+                    },
+                    decoration: InputDecoration(
+                      hintText: filteredProviders.isEmpty
+                          ? 'No providers available'
+                          : 'Choose a provider',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+
+            const SizedBox(height: 20),
+
             // Date picker
             Text(
               'Select Date',
@@ -203,7 +411,10 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                   label: Text('$min min'),
                   selected: isSelected,
                   selectedColor: AppColors.iconPrimaryColor.withOpacity(0.2),
-                  onSelected: (_) => setState(() => _durationMinutes = min),
+                  onSelected: (_) => setState(() {
+                    _durationMinutes = min;
+                    _durationManuallySet = true;
+                  }),
                 );
               }).toList(),
             ),
@@ -229,7 +440,7 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
               ),
             ),
 
-            if (widget.price != null) ...[
+            if (displayPrice != null) ...[
               const SizedBox(height: 20),
               Container(
                 width: double.infinity,
@@ -249,7 +460,7 @@ class _BookAppointmentPageState extends ConsumerState<BookAppointmentPage> {
                       ),
                     ),
                     Text(
-                      '\$${widget.price!.toStringAsFixed(2)}',
+                      '\$${displayPrice.toStringAsFixed(2)}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,

@@ -96,6 +96,7 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
           firstName: safeFirstName,
           email: user.email,
           lastName: '',
+          role: 'user',
         );
         return user;
       } else {
@@ -193,6 +194,7 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
         email: updatedUser.email,
         firstName: safeFirstName,
         lastName: '',
+        role: _sessionService.getRole() ?? 'user',
       );
 
       return avatar;
@@ -264,6 +266,7 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
             email: updatedUser.email,
             firstName: safeFirstName,
             lastName: '',
+            role: _sessionService.getRole() ?? 'user',
           );
         }
 

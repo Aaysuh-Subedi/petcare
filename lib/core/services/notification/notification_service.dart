@@ -84,6 +84,52 @@ class NotificationService {
     );
   }
 
+  /// Schedule a reminder before a vaccination due date.
+  /// Default: 1 day before [dueDate].
+  Future<void> scheduleVaccinationReminder({
+    required int recordNotificationId,
+    required String title,
+    required String body,
+    required DateTime dueDate,
+    Duration reminderBefore = const Duration(days: 1),
+  }) async {
+    await init();
+
+    final scheduledTime = dueDate.subtract(reminderBefore);
+    if (scheduledTime.isBefore(DateTime.now())) return;
+
+    final tzScheduled = tz.TZDateTime.from(scheduledTime, tz.local);
+
+    const androidDetails = AndroidNotificationDetails(
+      'vaccination_reminders',
+      'Vaccination Reminders',
+      channelDescription: 'Reminders for upcoming pet vaccinations',
+      importance: Importance.high,
+      priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
+    );
+    const iosDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+    const details = NotificationDetails(
+      android: androidDetails,
+      iOS: iosDetails,
+    );
+
+    await _plugin.zonedSchedule(
+      recordNotificationId,
+      title,
+      body,
+      tzScheduled,
+      details,
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+    );
+  }
+
   /// Cancel a scheduled notification by its ID.
   Future<void> cancelNotification(int notificationId) async {
     await _plugin.cancel(notificationId);
@@ -97,5 +143,10 @@ class NotificationService {
   /// Generate a stable notification ID from a booking ID string.
   static int bookingIdToNotificationId(String bookingId) {
     return bookingId.hashCode.abs() % 2147483647;
+  }
+
+  /// Generate a stable notification ID from a health record ID string.
+  static int healthRecordIdToNotificationId(String recordId) {
+    return recordId.hashCode.abs() % 2147483647;
   }
 }

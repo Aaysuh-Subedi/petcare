@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/features/bookings/presentation/pages/book_appointment_page.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -7,7 +8,7 @@ class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            body: SafeArea(
+      body: SafeArea(
         child: CustomScrollView(
           slivers: [
             // Header
@@ -49,6 +50,68 @@ class ExploreScreen extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                ),
+              ),
+            ),
+
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const BookAppointmentPage(),
+                        ),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(16),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primaryColor.withOpacity(0.25),
+                            blurRadius: 16,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 14,
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.calendar_today_rounded,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 12),
+                            const Expanded(
+                              child: Text(
+                                'Book an appointment',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_rounded,
+                              color: Colors.white.withOpacity(0.9),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),

@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:petcare/core/api/api_endpoints.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Provider for ApiClient
 final apiClientProvider = Provider<ApiClient>((ref) {
@@ -140,7 +140,6 @@ class ApiClient {
 
 // Auth interceptor to add token to headers
 class _AuthInterceptor extends Interceptor {
-  final _storage = const FlutterSecureStorage();
   static const String _tokenKey = 'auth_token';
 
   @override
@@ -159,7 +158,8 @@ class _AuthInterceptor extends Interceptor {
         options.path == ApiEndpoints.user;
 
     if (!isPublicGet && !isAuthEndpoint) {
-      final token = await _storage.read(key: _tokenKey);
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString(_tokenKey);
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
       }
@@ -171,9 +171,9 @@ class _AuthInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     // Handle unauthorized errors (e.g., token expired)
     if (err.response?.statusCode == 401) {
-      // Optionally, you can clear the token or trigger a logout
-      _storage.delete(key: _tokenKey);
-      // You can also add logic to refresh the token here if your API supports it
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.remove(_tokenKey);
+      });
     }
     handler.next(err);
   }
