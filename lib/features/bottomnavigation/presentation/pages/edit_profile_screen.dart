@@ -135,7 +135,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     }
 
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: AppColors.textPrimaryColor),
           onPressed: () => Navigator.pop(context),
@@ -144,7 +144,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           'Edit Profile',
           style: Theme.of(context).textTheme.titleLarge,
         ),
-                elevation: 0,
+        elevation: 0,
         centerTitle: true,
       ),
       body: SafeArea(
@@ -181,7 +181,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                   : (_existingImageUrl != null &&
                                         _existingImageUrl!.isNotEmpty)
                                   ? CachedNetworkImageProvider(
-                                      '${ApiEndpoints.mediaServerUrl}$_existingImageUrl',
+                                      ApiEndpoints.resolveMediaUrl(
+                                        _existingImageUrl!,
+                                      ),
                                     )
                                   : null,
                               child:

@@ -240,7 +240,7 @@ class _PetCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 child: (imageUrl != null && imageUrl.isNotEmpty)
                     ? CachedNetworkImage(
-                        imageUrl: '${ApiEndpoints.mediaServerUrl}$imageUrl',
+                        imageUrl: ApiEndpoints.resolveMediaUrl(imageUrl!),
                         fit: BoxFit.cover,
                         placeholder: (context, url) => Center(
                           child: CircularProgressIndicator(

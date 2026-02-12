@@ -19,6 +19,15 @@ class ApiEndpoints {
     }
   }
 
+  static String resolveMediaUrl(String path) {
+    if (path.isEmpty) return '';
+    final base = mediaServerUrl.endsWith('/')
+        ? mediaServerUrl.substring(0, mediaServerUrl.length - 1)
+        : mediaServerUrl;
+    final cleanPath = path.startsWith('/') ? path.substring(1) : path;
+    return '$base/$cleanPath';
+  }
+
   static const Duration connectionTimeout = Duration(seconds: 15);
   static const Duration receiveTimeout = Duration(seconds: 15);
 
@@ -29,7 +38,7 @@ class ApiEndpoints {
   static const String userWhoAmI = 'api/auth/whoami';
   static const String userUploadPhoto = 'api/auth/update-profile';
   static String userPicture(String filename) =>
-      '$mediaServerUrl/user_photos/$filename';
+      resolveMediaUrl('user_photos/$filename');
   // ------------------------ PROVIDER -----------------------
   static const String provider = 'api/provider';
   static const String providerLogin = 'login';
@@ -42,11 +51,11 @@ class ApiEndpoints {
   static const String providerDelete = 'api/provider';
 
   // ------------------------ PET ----------------------------
-  static const String petGetAll = 'pet';
-  static const String petById = 'pet';
-  static const String petCreate = 'pet';
-  static const String petUpdate = 'pet';
-  static const String petDelete = 'pet';
+  static const String petGetAll = 'api/pet';
+  static const String petById = 'api/pet';
+  static const String petCreate = 'api/pet';
+  static const String petUpdate = 'api/pet';
+  static const String petDelete = 'api/pet';
 
   // ----------------------- BOOKING -------------------------
   static const String bookingCreate = 'api/booking';

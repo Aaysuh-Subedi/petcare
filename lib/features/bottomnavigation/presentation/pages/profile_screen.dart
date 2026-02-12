@@ -238,7 +238,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     backgroundImage:
                                         avatar != null && avatar.isNotEmpty
                                         ? CachedNetworkImageProvider(
-                                            '${ApiEndpoints.mediaServerUrl}$avatar',
+                                            ApiEndpoints.resolveMediaUrl(
+                                              avatar,
+                                            ),
                                           )
                                         : null,
                                     child: avatar == null || avatar.isEmpty
