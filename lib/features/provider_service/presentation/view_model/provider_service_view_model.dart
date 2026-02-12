@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:petcare/features/provider_service/di/provider_service_providers.dart';
 import 'package:petcare/features/provider_service/domain/entities/provider_service_entity.dart';
 import 'package:petcare/features/provider_service/domain/usecases/apply_provider_service_usecase.dart';
-import 'package:petcare/features/provider_service/domain/usecases/get_my_provider_services_usecase.dart';
 import 'package:petcare/features/provider_service/presentation/state/provider_service_state.dart';
 
 class ProviderServiceNotifier extends StateNotifier<ProviderServiceState> {

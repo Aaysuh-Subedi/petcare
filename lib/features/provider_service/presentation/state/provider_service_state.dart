@@ -1,17 +1,16 @@
 import 'package:petcare/features/provider_service/domain/entities/provider_service_entity.dart';
+import 'package:petcare/core/state/base_state.dart';
 
-class ProviderServiceState {
-  final bool isLoading;
-  final String? error;
+class ProviderServiceState extends BaseState {
   final List<ProviderServiceEntity> services;
   final ProviderServiceEntity? lastApplied;
 
   const ProviderServiceState({
-    this.isLoading = false,
-    this.error,
+    bool isLoading = false,
+    String? error,
     this.services = const [],
     this.lastApplied,
-  });
+  }) : super(isLoading: isLoading, error: error);
 
   ProviderServiceState copyWith({
     bool? isLoading,
