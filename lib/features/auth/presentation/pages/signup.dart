@@ -579,7 +579,9 @@ class _SignupState extends ConsumerState<Signup>
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Login(),
+                                    builder: (context) {
+                                      return const Login() as Widget;
+                                    },
                                   ),
                                 );
                               },
@@ -835,7 +837,11 @@ class _SignupState extends ConsumerState<Signup>
             );
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => Login()),
+              MaterialPageRoute(
+                builder: (context) {
+                  return const Login() as Widget;
+                },
+              ),
             );
           },
         );

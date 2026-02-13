@@ -534,7 +534,7 @@ class _ProviderProfileScreenState extends ConsumerState<ProviderProfileScreen>
                         if (!mounted) return;
                         Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (_) => Login()),
+                          MaterialPageRoute(builder: (_) => const Login()),
                           (_) => false,
                         );
                       },

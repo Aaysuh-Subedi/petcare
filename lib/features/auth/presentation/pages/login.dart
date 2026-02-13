@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare/app/theme/app_colors.dart';
 import 'package:petcare/app/theme/theme_extensions.dart';
-import 'package:petcare/features/auth/domain/usecases/login_usecase.dart';
+import 'package:petcare/features/auth/presentation/view_model/login_view_model.dart';
 import 'package:petcare/features/auth/presentation/pages/signup.dart';
 import 'package:petcare/features/dashboard/presentation/pages/dashboard_screen.dart';
 import 'package:petcare/features/provider/presentation/screens/provider_login_screen.dart';
@@ -10,7 +11,7 @@ import 'package:petcare/features/auth/di/auth_providers.dart';
 import 'package:petcare/features/auth/presentation/view_model/session_notifier.dart';
 
 class Login extends ConsumerStatefulWidget {
-  Login({super.key});
+  const Login({super.key});
 
   @override
   ConsumerState<Login> createState() => _LoginState();
@@ -79,23 +80,12 @@ class _LoginState extends ConsumerState<Login>
 
     setState(() => _isLoading = true);
 
-    final usecase = ref.read(loginUsecaseProvider);
-    final params = LoginUsecaseParams(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
-
-    print(
-      '📤 UI LOGIN: Calling usecase with params: email="${params.email}", password length=${params.password.length}',
-    );
-    print(
-      '🔍 UI LOGIN: Raw password controller text: "${_passwordController.text}" (length: ${_passwordController.text.length})',
-    );
-    print(
-      '🔍 UI LOGIN: Trimmed password: "${params.password}" (length: ${params.password.length})',
-    );
-
-    final result = await usecase(params);
+    final result = await ref
+        .read(loginViewModelProvider.notifier)
+        .login(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
 
     if (!mounted) {
       print('⚠️ UI LOGIN: Widget not mounted after login attempt');
@@ -122,16 +112,6 @@ class _LoginState extends ConsumerState<Login>
         print(
           '✅ UI LOGIN: Login successful for user: ${user.email} (ID: ${user.userId})',
         );
-
-        await ref
-            .read(UserSessionNotifierProvider.notifier)
-            .setSession(
-              userId: user.userId,
-              firstName: user.FirstName,
-              email: user.email,
-              role: 'user',
-            );
-
         print('🧭 UI LOGIN: Navigating to dashboard');
         Navigator.pushReplacement(
           context,
