@@ -18,6 +18,8 @@ class _SplashScreenState extends State<SplashScreen>
   late final AnimationController _controller;
   late final Animation<double> _fade;
   late final Animation<double> _scale;
+  Timer? _fallbackTimer;
+  bool _hasNavigated = false;
 
   @override
   void initState() {
@@ -50,12 +52,15 @@ class _SplashScreenState extends State<SplashScreen>
     });
 
     // Safety timeout in case of edge cases (optional)
-    Timer(Duration(seconds: 4), () {
+    _fallbackTimer = Timer(const Duration(seconds: 4), () {
       if (mounted) _goToNext();
     });
   }
 
   Future<void> _goToNext() async {
+    if (_hasNavigated || !mounted) return;
+    _hasNavigated = true;
+
     final container = ProviderScope.containerOf(context);
     final session = container.read(userSessionServiceProvider);
 
@@ -76,6 +81,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
+    _fallbackTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }

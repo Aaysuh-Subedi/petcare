@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare/app/theme/app_colors.dart';
+import 'package:petcare/core/services/storage/user_session_service.dart';
 import 'package:petcare/features/shop/di/shop_providers.dart';
 import 'package:petcare/features/shop/domain/entities/product_entity.dart';
 import 'package:petcare/features/shop/domain/repositories/shop_repository.dart';
@@ -19,7 +20,7 @@ class _ManageInventoryPageState extends ConsumerState<ManageInventoryPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(shopProvider.notifier).loadProducts();
+      _loadInventory();
     });
   }
 
@@ -64,9 +65,7 @@ class _ManageInventoryPageState extends ConsumerState<ManageInventoryPage> {
               ),
             )
           : RefreshIndicator(
-              onRefresh: () async {
-                ref.read(shopProvider.notifier).loadProducts();
-              },
+              onRefresh: () async => _loadInventory(),
               child: ListView.builder(
                 padding: const EdgeInsets.all(16),
                 itemCount: state.products.length,
@@ -84,6 +83,19 @@ class _ManageInventoryPageState extends ConsumerState<ManageInventoryPage> {
               ),
             ),
     );
+  }
+
+  Future<void> _loadInventory() async {
+    final session = ref.read(userSessionServiceProvider);
+    final providerId = session.getUserId();
+
+    // If we have a provider ID, load inventory scoped to this provider.
+    // Fallback to generic products list otherwise.
+    if (providerId != null && providerId.isNotEmpty) {
+      await ref.read(shopProvider.notifier).loadProviderInventory(providerId);
+    } else {
+      await ref.read(shopProvider.notifier).loadProducts();
+    }
   }
 
   Future<void> _deleteProduct(

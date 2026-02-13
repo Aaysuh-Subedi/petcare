@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare/app/routes/route_paths.dart';
-
-import 'package:petcare/features/auth/presentation/view_model/session_notifier.dart';
-
 import 'package:petcare/app/theme/theme_extensions.dart';
+import 'package:petcare/features/auth/presentation/view_model/session_notifier.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_business_profile_screen.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_documents_screen.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_help_screen.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_notifications_screen.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_payment_settings_screen.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_privacy_policy_screen.dart';
 
 // Modern color palette for Provider Profile
 class ProviderProfileColors {
@@ -235,12 +239,11 @@ class _ProviderProfileScreenState extends ConsumerState<ProviderProfileScreen>
                         Icons.business_rounded,
                         ProviderProfileColors.editProfile,
                         () {
-                          // TODO: Navigate to edit business profile
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Edit profile feature coming soon!',
-                              ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  const ProviderBusinessProfileScreen(),
                             ),
                           );
                         },
@@ -252,10 +255,10 @@ class _ProviderProfileScreenState extends ConsumerState<ProviderProfileScreen>
                         Icons.description_rounded,
                         ProviderProfileColors.business,
                         () {
-                          // TODO: Navigate to documents screen
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Documents feature coming soon!'),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const ProviderDocumentsScreen(),
                             ),
                           );
                         },
@@ -267,10 +270,11 @@ class _ProviderProfileScreenState extends ConsumerState<ProviderProfileScreen>
                         Icons.payment_rounded,
                         ProviderProfileColors.accent,
                         () {
-                          // TODO: Navigate to payment settings
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Payment settings coming soon!'),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  const ProviderPaymentSettingsScreen(),
                             ),
                           );
                         },
@@ -292,12 +296,11 @@ class _ProviderProfileScreenState extends ConsumerState<ProviderProfileScreen>
                         Icons.notifications_rounded,
                         ProviderProfileColors.settings,
                         () {
-                          // TODO: Navigate to notifications settings
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Notifications settings coming soon!',
-                              ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  const ProviderNotificationsScreen(),
                             ),
                           );
                         },
@@ -309,10 +312,10 @@ class _ProviderProfileScreenState extends ConsumerState<ProviderProfileScreen>
                         Icons.help_rounded,
                         ProviderProfileColors.help,
                         () {
-                          // TODO: Navigate to help screen
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Help & Support coming soon!'),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const ProviderHelpScreen(),
                             ),
                           );
                         },
@@ -324,10 +327,11 @@ class _ProviderProfileScreenState extends ConsumerState<ProviderProfileScreen>
                         Icons.privacy_tip_rounded,
                         ProviderProfileColors.primary,
                         () {
-                          // TODO: Navigate to privacy policy
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Privacy policy coming soon!'),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  const ProviderPrivacyPolicyScreen(),
                             ),
                           );
                         },

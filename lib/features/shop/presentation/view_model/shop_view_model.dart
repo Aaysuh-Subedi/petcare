@@ -22,6 +22,18 @@ class ShopNotifier extends StateNotifier<ShopState> {
     );
   }
 
+  Future<void> loadProviderInventory(String providerId) async {
+    state = state.copyWith(isLoading: true, error: null);
+    final repository = _ref.read(shopRepositoryProvider);
+    final result = await repository.getProviderInventory(providerId);
+    result.fold(
+      (failure) =>
+          state = state.copyWith(isLoading: false, error: failure.message),
+      (products) =>
+          state = state.copyWith(isLoading: false, products: products),
+    );
+  }
+
   void addToCart(ProductEntity product) {
     final items = List<CartItemEntity>.from(state.cart.items);
     final index = items.indexWhere(

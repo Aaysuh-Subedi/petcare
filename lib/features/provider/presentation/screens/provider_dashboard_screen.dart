@@ -4,6 +4,8 @@ import 'package:petcare/app/theme/theme_extensions.dart';
 import 'package:petcare/features/bookings/presentation/pages/manage_appointments_page.dart';
 import 'package:petcare/features/bookings/presentation/pages/earnings_dashboard_page.dart';
 import 'package:petcare/features/bookings/presentation/pages/provider_calendar_page.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_messages_screen.dart';
+import 'package:petcare/features/provider/presentation/screens/provider_notifications_screen.dart';
 import 'package:petcare/features/provider_service/presentation/pages/apply_provider_service.dart';
 import 'package:petcare/features/provider_service/presentation/pages/my_provider_services.dart';
 import 'package:petcare/features/provider_service/presentation/view_model/provider_service_view_model.dart';
@@ -389,10 +391,10 @@ class _ProviderDashboardScreenState
                           icon: Icons.chat_bubble_rounded,
                           color: ProviderColors.messages,
                           onTap: () {
-                            // TODO: Navigate to messages screen
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Messages feature coming soon!'),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const ProviderMessagesScreen(),
                               ),
                             );
                           },
@@ -458,7 +460,12 @@ class _ProviderDashboardScreenState
       ),
       child: IconButton(
         onPressed: () {
-          // TODO: Navigate to notifications
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const ProviderNotificationsScreen(),
+            ),
+          );
         },
         icon: Icon(Icons.notifications_outlined, color: context.textPrimary),
       ),
