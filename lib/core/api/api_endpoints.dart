@@ -1,98 +1,94 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+
 class ApiEndpoints {
   ApiEndpoints._();
 
-  static String get baseUrl {
-    if (Platform.isAndroid) {
-      return 'http://10.0.2.2:5050/';
-    } else {
-      return 'http://localhost:5050/';
-    }
+  // configure base URL based on platform
+  static const bool isPhysicalDevice =
+      true; // Set to true for physical device testing, false for emulator/simulator
+  static const String _ipAddress = '192.168.1.6';
+  static const int _port = 5050;
+
+  // Base URL configuration
+  static String get _host {
+    if (isPhysicalDevice) return _ipAddress;
+    if (kIsWeb || Platform.isIOS) return 'localhost';
+    if (Platform.isAndroid) return '10.0.2.2';
+    return 'localhost';
   }
 
-  static String get mediaServerUrl {
-    if (Platform.isAndroid) {
-      return 'http://10.0.2.2:5050/';
-    } else {
-      return 'http://localhost:5050/';
-    }
-  }
+  static String get serverUrl => 'http://$_host:$_port/';
+  static String get baseUrl => '${serverUrl}api/';
+  static String get mediaUrl => '${serverUrl}media/';
 
-  static String resolveMediaUrl(String path) {
-    if (path.isEmpty) return '';
-    final base = mediaServerUrl.endsWith('/')
-        ? mediaServerUrl.substring(0, mediaServerUrl.length - 1)
-        : mediaServerUrl;
-    final cleanPath = path.startsWith('/') ? path.substring(1) : path;
-    return '$base/$cleanPath';
-  }
+  static String resolveMediaUrl(String path) => '$mediaUrl$path';
 
   static const Duration connectionTimeout = Duration(seconds: 15);
   static const Duration receiveTimeout = Duration(seconds: 15);
 
   // -------------------------- AUTH -------------------------
-  static const String user = 'api/auth/user';
-  static const String userLogin = 'api/auth/login';
-  static const String userRegister = 'api/auth/register';
-  static const String userWhoAmI = 'api/auth/whoami';
-  static const String userUploadPhoto = 'api/auth/update-profile';
+  static const String user = 'auth/user';
+  static const String userLogin = 'auth/login';
+  static const String userRegister = 'auth/register';
+  static const String userWhoAmI = 'auth/whoami';
+  static const String userUploadPhoto = 'auth/update-profile';
   static String userPicture(String filename) =>
       resolveMediaUrl('user_photos/$filename');
   // ------------------------ PROVIDER -----------------------
-  static const String provider = 'api/provider';
+  static const String provider = 'provider';
   static const String providerLogin = 'login';
   static const String providerRegister = 'register';
 
-  static const String providerGetAll = 'api/provider';
-  static const String providerById = 'api/provider';
-  static const String providerCreate = 'api/provider';
-  static const String providerUpdate = 'api/provider';
-  static const String providerDelete = 'api/provider';
+  static const String providerGetAll = 'provider';
+  static const String providerById = 'provider';
+  static const String providerCreate = 'provider';
+  static const String providerUpdate = 'provider';
+  static const String providerDelete = 'provider';
 
   // ------------------ PROVIDER SERVICE --------------------
-  static const String providerServiceApply =
-      'api/provider/provider-service/apply';
-  static const String providerServiceMy = 'api/provider/provider-service/my';
-  static const String providerServiceById = 'api/provider/provider-service';
+  static const String providerServiceApply = 'provider/provider-service/apply';
+  static const String providerServiceMy = 'provider/provider-service/my';
+  static const String providerServiceById = 'provider/provider-service';
 
   // ------------------------ PET ----------------------------
-  static const String petGetAll = 'api/user/pet';
-  static const String petById = 'api/user/pet';
-  static const String petCreate = 'api/user/pet';
-  static const String petUpdate = 'api/user/pet';
-  static const String petDelete = 'api/user/pet';
+  static const String petGetAll = 'user/pet';
+  static const String petById = 'user/pet';
+  static const String petCreate = 'user/pet';
+  static const String petUpdate = 'user/pet';
+  static const String petDelete = 'user/pet';
 
   // ----------------------- BOOKING -------------------------
-  static const String bookingCreate = 'api/booking';
-  static const String bookingList = 'api/booking';
-  static const String bookingById = 'api/booking';
-  static const String bookingUpdate = 'api/booking';
-  static const String bookingDelete = 'api/booking';
-  static const String bookingByUser = 'api/booking/user';
-  static const String providerBookings = 'api/provider/booking/my';
-  static const String providerBookingStatus = 'api/provider/booking';
+  static const String bookingCreate = 'booking';
+  static const String bookingList = 'booking';
+  static const String bookingById = 'booking';
+  static const String bookingUpdate = 'booking';
+  static const String bookingDelete = 'booking';
+  static const String bookingByUser = 'booking/user';
+  static const String providerBookings = 'provider/booking/my';
+  static const String providerBookingStatus = 'provider/booking';
 
   // ----------------------- SERVICE -------------------------
-  static const String serviceList = 'api/service';
-  static const String serviceById = 'api/service';
-  static const String serviceByProvider = 'api/service/provider';
+  static const String serviceList = 'service';
+  static const String serviceById = 'service';
+  static const String serviceByProvider = 'service/provider';
 
   // ---------------------- INVENTORY ------------------------
-  static const String inventoryByProvider = 'api/provider/inventory';
-  static const String inventoryCreate = 'api/provider/inventory';
-  static const String inventoryUpdate = 'api/provider/inventory';
-  static const String inventoryDelete = 'api/provider/inventory';
-  static const String inventoryById = 'api/provider/inventory';
+  static const String inventoryByProvider = 'provider/inventory';
+  static const String inventoryCreate = 'provider/inventory';
+  static const String inventoryUpdate = 'provider/inventory';
+  static const String inventoryDelete = 'provider/inventory';
+  static const String inventoryById = 'provider/inventory';
 
   // ----------------------- ORDER ---------------------------
-  static const String orderCreate = 'api/order';
-  static const String orderMy = 'api/order/my';
-  static const String orderById = 'api/order';
-  static const String orderUpdate = 'api/order';
-  static const String orderDelete = 'api/order';
+  static const String orderCreate = 'order';
+  static const String orderMy = 'order/my';
+  static const String orderById = 'order';
+  static const String orderUpdate = 'order';
+  static const String orderDelete = 'order';
 
   // -------------------- HEALTH RECORD ----------------------
-  static const String healthRecord = 'api/health-record';
-  static const String healthRecordByPet = 'api/health-record/pet';
+  static const String healthRecord = 'health-record';
+  static const String healthRecordByPet = 'health-record/pet';
 }
